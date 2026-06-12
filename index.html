@@ -41,8 +41,8 @@
 <div class="container">
     
     <div class="navbar">
-        <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Requisições</button>
-        <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Criar Nova Requisição</button>
+        <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Histórico de Requisições</button>
+        <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Nova Requisição</button>
     </div>
 
     <div id="telaLista">
@@ -139,7 +139,7 @@
 </div>
 
 <script>
-    // === COLOQUE A URL DO SEU GOOGLE APPS SCRIPT AQUI ===
+    // Link definitivo configurado automaticamente
     const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbzTlInxR9RSU6ESCgaXHwYSny6rzi5f4LOypXSB0wft0x6Gpy9HNXwsXIE8XmvNiLLp/exec"; 
 
     function mostrarTela(telaAlvo) {
@@ -253,12 +253,11 @@
             }
 
             dados.requisicoes.reverse().forEach(req => {
-                const dataPrazoSplit = String(req['Prazo']).split('-');
-                const prazoFormatado = dataPrazoSplit.length === 3 ? `${dataPrazoSplit[2]}/${dataPrazoSplit[1]}/${dataPrazoSplit[0]}` : req['Prazo'];
+                const prazoFormatado = req['Prazo'] || '--/--/----';
                 
                 const comprador = req['Comprador'] && req['Comprador'] !== '#N/A' && req['Comprador'] !== '' ? req['Comprador'] : 'Pendente';
                 const status = req['Status'] && req['Status'] !== '#N/A' && req['Status'] !== '' ? req['Status'] : 'Aguardando Aprovação';
-                const previsao = req['Previsão'] && req['Previsão'] !== '#N/A' && req['Previsão'] !== '' ? String(req['Previsão']).substring(0,10) : '--/--/----';
+                const previsao = req['Previsão'] && req['Previsão'] !== '#N/A' && req['Previsão'] !== '' ? req['Previsão'] : '--/--/----';
                 
                 const itensTexto = req['Descrição do item / serviço'] || 'Sem itens informados';
 
