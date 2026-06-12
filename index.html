@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Requisição</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        .navbar { display: flex; gap: 10px; margin-bottom: 20px; background: #333; padding: 10px; border-radius: 6px; }
+        .nav-btn { flex: 1; background: transparent; color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 16px; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+        .nav-btn:hover { background: #555; }
+        .nav-btn.active { background: #e65c00; }
+
+        .escondido { display: none !important; }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555;}
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn { padding: 10px 15px; background: #e65c00; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
+        .btn:hover { background: #cc5200; }
+        
+        .items-container { border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fafafa; }
+        .item-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .item-list { margin-top: 10px; list-style: none; padding: 0; }
+        .item-list li { background: #fff; padding: 8px; border: 1px solid #eee; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        
+        .cards-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
+        .card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card h4 { margin: 0 0 5px 0; color: #333; font-size: 16px; }
+        .card .status-line { font-size: 13px; color: #888; margin-bottom: 15px; }
+        .card .item-line { font-size: 15px; color: #555; margin-bottom: 15px; }
+        .card .footer-line { font-size: 14px; color: #333; }
+        
+        #loading { display: none; margin-top: 10px; color: #e65c00; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="navbar">
+        <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Requisições</button>
+        <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Criar Nova Requisição</button>
+    </div>
+
+    <div id="telaLista">
+        <h2>Requisições Recentes</h2>
+        <div class="cards-grid" id="cardsContainer">
+            Carregando solicitações...
+        </div>
+    </div>
+
+    <div id="telaNova" class="escondido">
+        <h2>Criar Requisição</h2>
+        <form id="requisicaoForm">
+            <div class="form-group">
+                <label>Unidade</label>
+                <select id="unidade" required>
+                    <option value="Matriz - 11.169.419/0001-98">Matriz - 11.169.419/0001-98</option>
+                    <option value="Campo Grande - 11.169.419/0007-83">Campo Grande - 11.169.419/0007-83</option>
+                    <option value="Chapadão do Sul - 11.169.419/0002-79">Chapadão do Sul - 11.169.419/0002-79</option>
+                    <option value="Dourados - 26.657.785/0001-63">Dourados - 26.657.785/0001-63</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Solicitante</label>
+                <select id="solicitante" required>
+                    <option value="">Selecione...</option>
+                    <option value="Geovanna Laisa Alves Garcia">Geovanna Laisa Alves Garcia</option>
+                    <option value="Kauã Neves Caldeira">Kauã Neves Caldeira</option>
+                    <option value="Vinicius Dias Lopes">Vinicius Dias Lopes</option>
+                    <option value="Daiane Carvalho">Daiane Carvalho</option>
+                    <option value="Rogerio Silva">Rogerio Silva</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo</label>
+                <select id="tipo" required>
+                    <option value="Material">Material</option>
+                    <option value="Serviço">Serviço</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Grupo de material</label>
+                <select id="grupoMaterial" required>
+                    <option value="">Selecione...</option>
+                    <option value="Manutenção frota">Manutenção frota</option>
+                    <option value="Manutenção usina">Manutenção usina</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Material de Escritório">Material de Escritório</option>
+                </select>
+            </div>
+
+            <div class="form-group items-container">
+                <label>Adicionar itens e quantidade</label>
+                <div class="item-row">
+                    <input type="text" id="nomeItem" list="historicoItens" placeholder="Nome do item (ex: Mouse)">
+                    <datalist id="historicoItens"></datalist>
+                    
+                    <input type="number" id="qtdItem" placeholder="Qtd" style="width: 80px;">
+                    <button type="button" class="btn" onclick="adicionarItem()">Novo</button>
+                </div>
+                <ul class="item-list" id="listaItensHTML"></ul>
+            </div>
+
+            <div class="form-group">
+                <label>Prazo Desejado</label>
+                <input type="date" id="prazo" required>
+            </div>
+
+            <div class="form-group">
+                <label>Aplicação</label>
+                <textarea id="aplicacao" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Justificativa</label>
+                <textarea id="justificativa" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Urgente?</label>
+                <select id="urgente" required>
+                    <option value="Não">Não</option>
+                    <option value="Sim">Sim</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%;" id="btnEnviar">Enviar Requisição</button>
+            <div id="loading">Enviando dados... por favor, aguarde.</div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // === COLOQUE A URL DO SEU GOOGLE APPS SCRIPT AQUI ===
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbzTlInxR9RSU6ESCgaXHwYSny6rzi5f4LOypXSB0wft0x6Gpy9HNXwsXIE8XmvNiLLp/exec"; 
+
+    function mostrarTela(telaAlvo) {
+        document.getElementById('telaNova').classList.add('escondido');
+        document.getElementById('telaLista').classList.add('escondido');
+        document.getElementById('btnAbaNova').classList.remove('active');
+        document.getElementById('btnAbaLista').classList.remove('active');
+
+        if(telaAlvo === 'nova') {
+            document.getElementById('telaNova').classList.remove('escondido');
+            document.getElementById('btnAbaNova').classList.add('active');
+        } else if (telaAlvo === 'lista') {
+            document.getElementById('telaLista').classList.remove('escondido');
+            document.getElementById('btnAbaLista').classList.add('active');
+            carregarDados(); 
+        }
+    }
+
+    let itensMapeados = [];
+
+    function adicionarItem() {
+        const nome = document.getElementById('nomeItem').value;
+        const qtd = document.getElementById('qtdItem').value;
+        
+        if(nome && qtd) {
+            itensMapeados.push({nome: nome, qtd: qtd});
+            atualizarListaHTML();
+            document.getElementById('nomeItem').value = '';
+            document.getElementById('qtdItem').value = '';
+            document.getElementById('nomeItem').focus();
+        }
+    }
+
+    function atualizarListaHTML() {
+        const ul = document.getElementById('listaItensHTML');
+        ul.innerHTML = '';
+        itensMapeados.forEach((item) => {
+            ul.innerHTML += `<li>${item.nome} <b>(${item.qtd})</b></li>`;
+        });
+    }
+
+    document.getElementById('requisicaoForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if(itensMapeados.length === 0) {
+            alert('Adicione pelo menos um item!');
+            return;
+        }
+
+        const payload = {
+            unidade: document.getElementById('unidade').value,
+            solicitante: document.getElementById('solicitante').value,
+            tipo: document.getElementById('tipo').value,
+            grupoMaterial: document.getElementById('grupoMaterial').value,
+            itens: itensMapeados,
+            prazo: document.getElementById('prazo').value,
+            aplicacao: document.getElementById('aplicacao').value,
+            justificativa: document.getElementById('justificativa').value,
+            urgente: document.getElementById('urgente').value
+        };
+
+        document.getElementById('btnEnviar').style.display = 'none';
+        document.getElementById('loading').style.display = 'block';
+
+        try {
+            const response = await fetch(URL_DO_GAS, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            
+            if(result.status === "success") {
+                alert('Requisição enviada com sucesso!');
+                document.getElementById('requisicaoForm').reset();
+                itensMapeados = [];
+                atualizarListaHTML();
+                
+                await carregarDados(); 
+                mostrarTela('lista'); 
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao enviar a requisição.");
+        } finally {
+            document.getElementById('btnEnviar').style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+        }
+    });
+
+    async function carregarDados() {
+        try {
+            const response = await fetch(URL_DO_GAS);
+            const dados = await response.json(); 
+            
+            const datalist = document.getElementById('historicoItens');
+            datalist.innerHTML = '';
+            dados.itensHistorico.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                datalist.appendChild(option);
+            });
+
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            if (dados.requisicoes.length === 0) {
+                container.innerHTML = 'Nenhuma requisição encontrada.';
+                return;
+            }
+
+            dados.requisicoes.reverse().forEach(req => {
+                const dataPrazoSplit = String(req['Prazo']).split('-');
+                const prazoFormatado = dataPrazoSplit.length === 3 ? `${dataPrazoSplit[2]}/${dataPrazoSplit[1]}/${dataPrazoSplit[0]}` : req['Prazo'];
+                
+                const comprador = req['Comprador'] && req['Comprador'] !== '#N/A' && req['Comprador'] !== '' ? req['Comprador'] : 'Pendente';
+                const status = req['Status'] && req['Status'] !== '#N/A' && req['Status'] !== '' ? req['Status'] : 'Aguardando Aprovação';
+                const previsao = req['Previsão'] && req['Previsão'] !== '#N/A' && req['Previsão'] !== '' ? String(req['Previsão']).substring(0,10) : '--/--/----';
+                
+                const itensTexto = req['Descrição do item / serviço'] || 'Sem itens informados';
+
+                const cardHTML = `
+                    <div class="card">
+                        <h4>Requisição #${req['ID']} - Urgente: ${req['Urgente']}</h4>
+                        <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
+                        <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
+                        <div class="footer-line">${req['Unidade']} | ${req['Solicitante']} | Prazo: ${prazoFormatado}</div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        } catch (error) {
+            console.error("Erro ao carregar os dados", error);
+            document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar os dados. Verifique o console.';
+        }
+    }
+
+    window.onload = carregarDados;
+</script>
+
+</body>
+</html>
