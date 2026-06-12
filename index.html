@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="flavicon.png" type="image/png">
     <title>Sistema de Requisição</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
@@ -139,8 +140,7 @@
 </div>
 
 <script>
-    // Link definitivo configurado automaticamente
-    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbzTlInxR9RSU6ESCgaXHwYSny6rzi5f4LOypXSB0wft0x6Gpy9HNXwsXIE8XmvNiLLp/exec"; 
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbxzErSTIdaH2fbo3zlN-Od7ZpUIEZGUakD71rFp6frKbmxnrqh0y305CUI00cqmMw9T/exec"; 
 
     function mostrarTela(telaAlvo) {
         document.getElementById('telaNova').classList.add('escondido');
@@ -214,7 +214,9 @@
             const result = await response.json();
             
             if(result.status === "success") {
-                alert('Requisição enviada com sucesso!');
+                const numeroReq = result.id ? `#${result.id} ` : '';
+                alert(`Requisição ${numeroReq}enviada com sucesso!`);
+                
                 document.getElementById('requisicaoForm').reset();
                 itensMapeados = [];
                 atualizarListaHTML();
@@ -230,6 +232,29 @@
             document.getElementById('loading').style.display = 'none';
         }
     });
+
+    // Função de segurança para limpar resíduos ISO e garantir formato DD/MM/AAAA nos cards
+    function formatarDataBR(dataStr) {
+        if (!dataStr) return '--/--/----';
+        let limpo = String(dataStr).split('T')[0]; 
+        if (limpo.includes('-')) {
+            let partes = limpo.split('-');
+            if (partes.length === 3 && partes[0].length === 4) {
+                return `${partes[2]}/${partes[1]}/${partes[0]}`;
+            }
+        }
+        return limpo; 
+    }
+
+    // Função auxiliar para buscar chaves de forma tolerante a maiúsculas, espaços e dois pontos (:)
+    function obterCampo(obj, nomeCampo) {
+        if (!obj) return '';
+        const nomeLimpo = nomeCampo.toLowerCase().replace(/[:\s/]/g, '');
+        const chaveEncontrada = Object.keys(obj).find(k => 
+            k.toLowerCase().replace(/[:\s/]/g, '') === nomeLimpo
+        );
+        return chaveEncontrada ? obj[chaveEncontrada] : '';
+    }
 
     async function carregarDados() {
         try {
@@ -253,20 +278,28 @@
             }
 
             dados.requisicoes.reverse().forEach(req => {
-                const prazoFormatado = req['Prazo'] || '--/--/----';
+                // Utilização do mapeamento robusto para evitar quebra por conta dos dois pontos (:) da planilha
+                const id = obterCampo(req, 'ID');
+                const urgente = obterCampo(req, 'Urgente');
+                const unidade = obterCampo(req, 'Unidade');
+                const solicitante = obterCampo(req, 'Solicitante');
+                const itensTexto = obterCampo(req, 'Descrição do item / serviço') || 'Sem itens informados';
                 
-                const comprador = req['Comprador'] && req['Comprador'] !== '#N/A' && req['Comprador'] !== '' ? req['Comprador'] : 'Pendente';
-                const status = req['Status'] && req['Status'] !== '#N/A' && req['Status'] !== '' ? req['Status'] : 'Aguardando Aprovação';
-                const previsao = req['Previsão'] && req['Previsão'] !== '#N/A' && req['Previsão'] !== '' ? req['Previsão'] : '--/--/----';
+                const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
+                const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
                 
-                const itensTexto = req['Descrição do item / serviço'] || 'Sem itens informados';
+                const compradorRaw = obterCampo(req, 'Comprador');
+                const comprador = compradorRaw && compradorRaw !== '#N/A' && compradorRaw !== '' ? compradorRaw : 'Pendente';
+                
+                const statusRaw = obterCampo(req, 'Status');
+                const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
 
                 const cardHTML = `
                     <div class="card">
-                        <h4>Requisição #${req['ID']} - Urgente: ${req['Urgente']}</h4>
+                        <h4>Requisição #${id} - Urgente: ${urgente}</h4>
                         <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
                         <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
-                        <div class="footer-line">${req['Unidade']} | ${req['Solicitante']} | Prazo: ${prazoFormatado}</div>
+                        <div class="footer-line">${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</div>
                     </div>
                 `;
                 container.innerHTML += cardHTML;
