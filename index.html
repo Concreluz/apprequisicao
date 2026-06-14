@@ -22,10 +22,13 @@
         .btn { padding: 10px 15px; background: #e65c00; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
         .btn:hover { background: #cc5200; }
         
-        /* Estilo do botão de excluir item */
         .btn-remover { background: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;}
         .btn-remover:hover { background: #c82333; }
         
+        /* Botão para abrir o anexo nos cards */
+        .btn-anexo { display: inline-block; background: #007bff; color: white; text-decoration: none; padding: 4px 10px; border-radius: 4px; font-size: 13px; font-weight: bold; margin-left: 10px; transition: 0.2s;}
+        .btn-anexo:hover { background: #0056b3; }
+
         .items-container { border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fafafa; }
         .item-row { display: flex; gap: 10px; margin-bottom: 10px; }
         .item-list { margin-top: 10px; list-style: none; padding: 0; }
@@ -33,14 +36,13 @@
         
         .cards-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
         .card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .card h4 { margin: 0 0 5px 0; color: #333; font-size: 16px; }
+        .card h4 { margin: 0 0 5px 0; color: #333; font-size: 16px; display: flex; justify-content: space-between; align-items: center;}
         .card .status-line { font-size: 13px; color: #888; margin-bottom: 15px; }
         .card .item-line { font-size: 15px; color: #555; margin-bottom: 15px; }
-        .card .footer-line { font-size: 14px; color: #333; }
+        .card .footer-line { font-size: 14px; color: #333; display: flex; justify-content: space-between; align-items: center;}
         
         #loading { display: none; margin-top: 10px; color: #e65c00; font-weight: bold; text-align: center; }
 
-        /* Estilos da barra de pesquisa */
         .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
         .search-bar input { flex: 2; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; }
         .search-bar select { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; cursor: pointer;}
@@ -84,16 +86,10 @@
             <div class="form-group">
                 <label>Unidade</label>
                 <select id="unidade" required>
+                    <option value="Matriz - 11.169.419/0001-98">Matriz - 11.169.419/0001-98</option>
                     <option value="Campo Grande - 11.169.419/0007-83">Campo Grande - 11.169.419/0007-83</option>
                     <option value="Chapadão do Sul - 11.169.419/0002-79">Chapadão do Sul - 11.169.419/0002-79</option>
-                    <option value="Cuiabá - 11.169.419/0010-89">Cuiabá - 11.169.419/0010-89</option>
                     <option value="Dourados - 26.657.785/0001-63">Dourados - 26.657.785/0001-63</option>
-                    <option value="Inocência - Cidade - 11.169.419/0009-45">Inocência - Cidade - 11.169.419/0009-45</option>
-                    <option value="Inocência - Obra - 11.169.419/0009-45">Inocência - Obra - 11.169.419/0009-45</option>
-                    <option value="Matriz - 11.169.419/0001-98">Matriz - 11.169.419/0001-98</option>
-                    <option value="Pozolana - 11.169.419/0008-64">Pozolana - 11.169.419/0008-64</option>
-                    <option value="Ribas do Rio Pardo - 11.169.419/0006-00">Ribas do Rio Pardo - 11.169.419/0006-00</option>
-                    <option value="Três Lagoas - 12.565.386/0001-68">Três Lagoas - 12.565.386/0001-68</option>
                 </select>
             </div>
 
@@ -101,38 +97,11 @@
                 <label>Solicitante</label>
                 <select id="solicitante" required>
                     <option value="">Selecione...</option>
-                    <option value="Daiane Carvalho de Lima">Daiane Carvalho de Lima</option>
-                    <option value="Maicon Cezar de Freitas Noronha">Maicon Cezar de Freitas Noronha</option>
-                    <option value="Nicoly Alves Valenzuela">Nicoly Alves Valenzuela</option>
-                    <option value="Vinicius Dias Lopes">Vinicius Dias Lopes</option>
-                    <option value="Murilo Ferreira de Souza">Murilo Ferreira de Souza</option>
-                    <option value="Rogerio Silva">Rogerio Silva</option>
-                    <option value="Tatiane Fernandes Nogueira">Tatiane Fernandes Nogueira</option>
-                    <option value="Higor Murilo Santos Arguelho">Higor Murilo Santos Arguelho</option>
-                    <option value="Rafaela Ribeiro Rodrigues">Rafaela Ribeiro Rodrigues</option>
-                    <option value="Joel Jorge Godois de Matos">Joel Jorge Godois de Matos</option>
-                    <option value="Fabio de Carvalho Bini">Fabio de Carvalho Bini</option>
-                    <option value="Silvio David Delite Junior">Silvio David Delite Junior</option>
-                    <option value="Junior Cezar">Junior Cezar</option>
-                    <option value="Gabriel Gebra Miranda">Gabriel Gebra Miranda</option>
-                    <option value="João Bini">João Bini</option>
-                    <option value="Elvis Rodrigues de Queiroz">Elvis Rodrigues de Queiroz</option>
-                    <option value="Junior de Freitas Lima">Junior de Freitas Lima</option>
-                    <option value="Dourival Bezerra Patriota Neto">Dourival Bezerra Patriota Neto</option>
-                    <option value="Marllon Brendon Oliveira Da Silva">Marllon Brendon Oliveira Da Silva</option>
-                    <option value="Kymberlly Hester B. Cabral">Kymberlly Hester B. Cabral</option>
-                    <option value="Gustavo Taioqui Dina Lara">Gustavo Taioqui Dina Lara</option>
-                    <option value="João Alcides Domingues">João Alcides Domingues</option>
-                    <option value="Carol Costa Albanezi Mota">Carol Costa Albanezi Mota</option>
-                    <option value="Mirelle Corrêa Nogueira Camargo">Mirelle Corrêa Nogueira Camargo</option>
                     <option value="Geovanna Laisa Alves Garcia">Geovanna Laisa Alves Garcia</option>
-                    <option value="Maria Campero">Maria Campero</option>
-                    <option value="Maria Pistori">Maria Pistori</option>
-                    <option value="Jean Queiroz">Jean Queiroz</option>
-                    <option value="Danilo Queiroz">Danilo Queiroz</option>
-                    <option value="Mauricio Alves dos Santos">Mauricio Alves dos Santos</option>
-                    <option value="Rose Garcia">Rose Garcia</option>
-                    <option value="Higor Ricardo Bernardes">Higor Ricardo Bernardes</option>
+                    <option value="Kauã Neves Caldeira">Kauã Neves Caldeira</option>
+                    <option value="Vinicius Dias Lopes">Vinicius Dias Lopes</option>
+                    <option value="Daiane Carvalho">Daiane Carvalho</option>
+                    <option value="Rogerio Silva">Rogerio Silva</option>
                 </select>
             </div>
 
@@ -148,15 +117,10 @@
                 <label>Grupo de material</label>
                 <select id="grupoMaterial" required>
                     <option value="">Selecione...</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="Informática">Informática</option>
                     <option value="Manutenção frota">Manutenção frota</option>
                     <option value="Manutenção usina">Manutenção usina</option>
-                    <option value="Matéria prima">Matéria prima</option>
+                    <option value="Diesel">Diesel</option>
                     <option value="Material de Escritório">Material de Escritório</option>
-                    <option value="Pneus">Pneus</option>
-                    <option value="Telefonia">Telefonia</option>
                 </select>
             </div>
 
@@ -195,17 +159,22 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn" style="width: 100%;" id="btnEnviar">Enviar Requisição</button>
-            <div id="loading">Enviando dados... por favor, aguarde.</div>
+            <div class="form-group items-container" style="background-color: #eef2f5;">
+                <label>Anexar Arquivo (Opcional - Máx. 5MB)</label>
+                <input type="file" id="arquivoAnexo" accept=".pdf, image/png, image/jpeg, image/jpg" style="background: white;">
+                <small style="color: #666; display: block; margin-top: 5px;">Formatos aceitos: PDF, PNG ou JPG.</small>
+            </div>
+
+            <button type="submit" class="btn" style="width: 100%; margin-top: 10px;" id="btnEnviar">Enviar Requisição</button>
+            <div id="loading">Enviando dados e arquivo... por favor, aguarde.</div>
         </form>
     </div>
 
 </div>
 
 <script>
-    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbxzErSTIdaH2fbo3zlN-Od7ZpUIEZGUakD71rFp6frKbmxnrqh0y305CUI00cqmMw9T/exec"; 
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbzfbc1pw1thf_zOIXEfWvhN528U-cO7hMicrfDFNz79ZCAWoITP2YRFVJDkEMuef7QN/exec"; 
 
-    // Variável global para armazenar os dados e permitir filtragem sem carregar tudo de novo
     let todasRequisicoes = []; 
 
     function mostrarTela(telaAlvo) {
@@ -239,13 +208,11 @@
         }
     }
 
-    // NOVA FUNÇÃO: Remove o item do array pela posição dele e recarrega a lista
     function removerItem(index) {
         itensMapeados.splice(index, 1);
         atualizarListaHTML();
     }
 
-    // LISTA ATUALIZADA: Adiciona o botão de excluir ao lado de cada item
     function atualizarListaHTML() {
         const ul = document.getElementById('listaItensHTML');
         ul.innerHTML = '';
@@ -258,7 +225,6 @@
         });
     }
 
-    // BLOQUEIA O ENVIO DO FORMULÁRIO AO APERTAR 'ENTER'
     document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
             e.preventDefault(); 
@@ -276,11 +242,14 @@
             return;
         }
 
-        // CONFIRMAÇÃO ANTES DE ENVIAR
         const confirmacao = confirm("Confirma o envio desta requisição?");
-        if (!confirmacao) {
-            return; // Se clicar em cancelar, o código para aqui
-        }
+        if (!confirmacao) return;
+
+        const btnEnviar = document.getElementById('btnEnviar');
+        const divLoading = document.getElementById('loading');
+        
+        btnEnviar.style.display = 'none';
+        divLoading.style.display = 'block';
 
         const payload = {
             unidade: document.getElementById('unidade').value,
@@ -291,12 +260,44 @@
             prazo: document.getElementById('prazo').value,
             aplicacao: document.getElementById('aplicacao').value,
             justificativa: document.getElementById('justificativa').value,
-            urgente: document.getElementById('urgente').value
+            urgente: document.getElementById('urgente').value,
+            arquivoBase64: null,
+            arquivoNome: null,
+            arquivoMimeType: null
         };
 
-        document.getElementById('btnEnviar').style.display = 'none';
-        document.getElementById('loading').style.display = 'block';
+        // LÓGICA DE PROCESSAMENTO DO ARQUIVO ANEXO ANTES DE ENVIAR
+        const inputArquivo = document.getElementById('arquivoAnexo');
+        
+        if (inputArquivo.files.length > 0) {
+            const file = inputArquivo.files[0];
+            
+            // Trava de segurança: 5MB
+            if (file.size > 5 * 1024 * 1024) {
+                alert("O arquivo anexado é maior que 5MB. Por favor, escolha um arquivo menor.");
+                btnEnviar.style.display = 'block';
+                divLoading.style.display = 'none';
+                return;
+            }
 
+            payload.arquivoNome = file.name;
+            payload.arquivoMimeType = file.type;
+
+            const reader = new FileReader();
+            reader.onload = function(eventoBase64) {
+                // Remove o cabeçalho 'data:image/png;base64,' para enviar só o código puro
+                payload.arquivoBase64 = eventoBase64.target.result.split(',')[1];
+                enviarParaGAS(payload);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Se não tiver anexo, envia direto
+            enviarParaGAS(payload);
+        }
+    });
+
+    // Função separada para enviar os dados para o Google após o arquivo ser processado
+    async function enviarParaGAS(payload) {
         try {
             const response = await fetch(URL_DO_GAS, {
                 method: 'POST',
@@ -316,15 +317,17 @@
                 
                 await carregarDados(); 
                 mostrarTela('lista'); 
+            } else {
+                alert(`Atenção: Houve um erro no servidor. ${result.message}`);
             }
         } catch (error) {
             console.error(error);
-            alert("Erro ao enviar a requisição.");
+            alert("Erro de conexão ao enviar a requisição.");
         } finally {
             document.getElementById('btnEnviar').style.display = 'block';
             document.getElementById('loading').style.display = 'none';
         }
-    });
+    }
 
     function formatarDataBR(dataStr) {
         if (!dataStr) return '--/--/----';
@@ -390,6 +393,7 @@
             const unidade = obterCampo(req, 'Unidade');
             const solicitante = obterCampo(req, 'Solicitante');
             const itensTexto = obterCampo(req, 'Descrição do item / serviço') || 'Sem itens informados';
+            const linkAnexo = obterCampo(req, 'Anexos');
             
             const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
             const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
@@ -400,12 +404,21 @@
             const statusRaw = obterCampo(req, 'Status');
             const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
 
+            // Verifica se a requisição tem anexo e gera o botão
+            let htmlBotaoAnexo = '';
+            if (linkAnexo && linkAnexo.startsWith('http')) {
+                htmlBotaoAnexo = `<a href="${linkAnexo}" target="_blank" class="btn-anexo" title="Abrir arquivo anexo">📎 Ver Anexo</a>`;
+            }
+
             const cardHTML = `
                 <div class="card">
                     <h4>Requisição #${id} - Urgente: ${urgente}</h4>
                     <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
                     <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
-                    <div class="footer-line">${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</div>
+                    <div class="footer-line">
+                        <span>${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</span>
+                        ${htmlBotaoAnexo}
+                    </div>
                 </div>
             `;
             container.innerHTML += cardHTML;
