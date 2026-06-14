@@ -22,10 +22,14 @@
         .btn { padding: 10px 15px; background: #e65c00; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;}
         .btn:hover { background: #cc5200; }
         
+        /* Estilo do botão de excluir item */
+        .btn-remover { background: #dc3545; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;}
+        .btn-remover:hover { background: #c82333; }
+        
         .items-container { border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fafafa; }
         .item-row { display: flex; gap: 10px; margin-bottom: 10px; }
         .item-list { margin-top: 10px; list-style: none; padding: 0; }
-        .item-list li { background: #fff; padding: 8px; border: 1px solid #eee; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .item-list li { background: #fff; padding: 8px; border: 1px solid #eee; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
         
         .cards-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
         .card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -35,6 +39,14 @@
         .card .footer-line { font-size: 14px; color: #333; }
         
         #loading { display: none; margin-top: 10px; color: #e65c00; font-weight: bold; text-align: center; }
+
+        /* Estilos da barra de pesquisa */
+        .search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+        .search-bar input { flex: 2; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; }
+        .search-bar select { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; cursor: pointer;}
+        @media (max-width: 600px) {
+            .search-bar { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -42,12 +54,25 @@
 <div class="container">
     
     <div class="navbar">
-        <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Histórico de Requisições</button>
-        <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Nova Requisição</button>
+        <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Requisições</button>
+        <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Criar Nova Requisição</button>
     </div>
 
     <div id="telaLista">
         <h2>Requisições Recentes</h2>
+        
+        <div class="search-bar">
+            <input type="text" id="inputPesquisa" placeholder="Pesquisar..." oninput="filtrarRequisicoes()">
+            <select id="filtroPesquisa" onchange="filtrarRequisicoes()">
+                <option value="todos">Todos os campos</option>
+                <option value="id">Nº Requisição</option>
+                <option value="comprador">Comprador</option>
+                <option value="solicitante">Solicitante</option>
+                <option value="unidade">Unidade</option>
+                <option value="prazo">Prazo</option>
+            </select>
+        </div>
+
         <div class="cards-grid" id="cardsContainer">
             Carregando solicitações...
         </div>
@@ -142,6 +167,9 @@
 <script>
     const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbxzErSTIdaH2fbo3zlN-Od7ZpUIEZGUakD71rFp6frKbmxnrqh0y305CUI00cqmMw9T/exec"; 
 
+    // Variável global para armazenar os dados e permitir filtragem sem carregar tudo de novo
+    let todasRequisicoes = []; 
+
     function mostrarTela(telaAlvo) {
         document.getElementById('telaNova').classList.add('escondido');
         document.getElementById('telaLista').classList.add('escondido');
@@ -173,13 +201,34 @@
         }
     }
 
+    // NOVA FUNÇÃO: Remove o item do array pela posição dele e recarrega a lista
+    function removerItem(index) {
+        itensMapeados.splice(index, 1);
+        atualizarListaHTML();
+    }
+
+    // LISTA ATUALIZADA: Adiciona o botão de excluir ao lado de cada item
     function atualizarListaHTML() {
         const ul = document.getElementById('listaItensHTML');
         ul.innerHTML = '';
-        itensMapeados.forEach((item) => {
-            ul.innerHTML += `<li>${item.nome} <b>(${item.qtd})</b></li>`;
+        itensMapeados.forEach((item, index) => {
+            ul.innerHTML += `
+                <li>
+                    <span>${item.nome} <b>(${item.qtd})</b></span>
+                    <button type="button" class="btn-remover" onclick="removerItem(${index})" title="Remover item">X</button>
+                </li>`;
         });
     }
+
+    // BLOQUEIA O ENVIO DO FORMULÁRIO AO APERTAR 'ENTER'
+    document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault(); 
+            if (e.target.id === 'nomeItem' || e.target.id === 'qtdItem') {
+                adicionarItem();
+            }
+        }
+    });
 
     document.getElementById('requisicaoForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -187,6 +236,12 @@
         if(itensMapeados.length === 0) {
             alert('Adicione pelo menos um item!');
             return;
+        }
+
+        // CONFIRMAÇÃO ANTES DE ENVIAR
+        const confirmacao = confirm("Confirma o envio desta requisição?");
+        if (!confirmacao) {
+            return; // Se clicar em cancelar, o código para aqui
         }
 
         const payload = {
@@ -233,7 +288,6 @@
         }
     });
 
-    // Função de segurança para limpar resíduos ISO e garantir formato DD/MM/AAAA nos cards
     function formatarDataBR(dataStr) {
         if (!dataStr) return '--/--/----';
         let limpo = String(dataStr).split('T')[0]; 
@@ -246,7 +300,6 @@
         return limpo; 
     }
 
-    // Função auxiliar para buscar chaves de forma tolerante a maiúsculas, espaços e dois pontos (:)
     function obterCampo(obj, nomeCampo) {
         if (!obj) return '';
         const nomeLimpo = nomeCampo.toLowerCase().replace(/[:\s/]/g, '');
@@ -269,45 +322,92 @@
                 datalist.appendChild(option);
             });
 
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
-
             if (dados.requisicoes.length === 0) {
-                container.innerHTML = 'Nenhuma requisição encontrada.';
+                document.getElementById('cardsContainer').innerHTML = 'Nenhuma requisição encontrada.';
+                todasRequisicoes = [];
                 return;
             }
 
-            dados.requisicoes.reverse().forEach(req => {
-                // Utilização do mapeamento robusto para evitar quebra por conta dos dois pontos (:) da planilha
-                const id = obterCampo(req, 'ID');
-                const urgente = obterCampo(req, 'Urgente');
-                const unidade = obterCampo(req, 'Unidade');
-                const solicitante = obterCampo(req, 'Solicitante');
-                const itensTexto = obterCampo(req, 'Descrição do item / serviço') || 'Sem itens informados';
-                
-                const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
-                const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
-                
-                const compradorRaw = obterCampo(req, 'Comprador');
-                const comprador = compradorRaw && compradorRaw !== '#N/A' && compradorRaw !== '' ? compradorRaw : 'Pendente';
-                
-                const statusRaw = obterCampo(req, 'Status');
-                const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
+            todasRequisicoes = dados.requisicoes.reverse();
+            renderizarCards(todasRequisicoes);
 
-                const cardHTML = `
-                    <div class="card">
-                        <h4>Requisição #${id} - Urgente: ${urgente}</h4>
-                        <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
-                        <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
-                        <div class="footer-line">${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</div>
-                    </div>
-                `;
-                container.innerHTML += cardHTML;
-            });
         } catch (error) {
             console.error("Erro ao carregar os dados", error);
             document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar os dados. Verifique o console.';
         }
+    }
+
+    function renderizarCards(listaDeRequisicoes) {
+        const container = document.getElementById('cardsContainer');
+        container.innerHTML = '';
+
+        if (listaDeRequisicoes.length === 0) {
+            container.innerHTML = 'Nenhuma requisição encontrada para esta pesquisa.';
+            return;
+        }
+
+        listaDeRequisicoes.forEach(req => {
+            const id = obterCampo(req, 'ID');
+            const urgente = obterCampo(req, 'Urgente');
+            const unidade = obterCampo(req, 'Unidade');
+            const solicitante = obterCampo(req, 'Solicitante');
+            const itensTexto = obterCampo(req, 'Descrição do item / serviço') || 'Sem itens informados';
+            
+            const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
+            const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
+            
+            const compradorRaw = obterCampo(req, 'Comprador');
+            const comprador = compradorRaw && compradorRaw !== '#N/A' && compradorRaw !== '' ? compradorRaw : 'Pendente';
+            
+            const statusRaw = obterCampo(req, 'Status');
+            const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
+
+            const cardHTML = `
+                <div class="card">
+                    <h4>Requisição #${id} - Urgente: ${urgente}</h4>
+                    <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
+                    <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
+                    <div class="footer-line">${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+    }
+
+    function filtrarRequisicoes() {
+        const termo = document.getElementById('inputPesquisa').value.toLowerCase().trim();
+        const filtroSelecionado = document.getElementById('filtroPesquisa').value;
+
+        if (termo === '') {
+            renderizarCards(todasRequisicoes);
+            return;
+        }
+
+        const listaFiltrada = todasRequisicoes.filter(req => {
+            const id = obterCampo(req, 'ID');
+            const comprador = (obterCampo(req, 'Comprador') && obterCampo(req, 'Comprador') !== '#N/A') ? obterCampo(req, 'Comprador') : 'Pendente';
+            const solicitante = obterCampo(req, 'Solicitante');
+            const unidade = obterCampo(req, 'Unidade');
+            const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
+
+            if (filtroSelecionado === 'id') return String(id).toLowerCase().includes(termo);
+            if (filtroSelecionado === 'comprador') return String(comprador).toLowerCase().includes(termo);
+            if (filtroSelecionado === 'solicitante') return String(solicitante).toLowerCase().includes(termo);
+            if (filtroSelecionado === 'unidade') return String(unidade).toLowerCase().includes(termo);
+            if (filtroSelecionado === 'prazo') return String(prazoFormatado).toLowerCase().includes(termo);
+            
+            if (filtroSelecionado === 'todos') {
+                const urgente = obterCampo(req, 'Urgente');
+                const status = (obterCampo(req, 'Status') && obterCampo(req, 'Status') !== '#N/A') ? obterCampo(req, 'Status') : 'Aguardando Aprovação';
+                const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
+                const itensTexto = obterCampo(req, 'Descrição do item / serviço');
+
+                const todoConteudo = `${id} ${comprador} ${solicitante} ${unidade} ${prazoFormatado} ${urgente} ${status} ${previsao} ${itensTexto}`.toLowerCase();
+                return todoConteudo.includes(termo);
+            }
+        });
+
+        renderizarCards(listaFiltrada);
     }
 
     window.onload = carregarDados;
