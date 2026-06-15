@@ -93,7 +93,6 @@
                     <option value="Dourados - 26.657.785/0001-63">Dourados - 26.657.785/0001-63</option>
                     <option value="Inocência - Cidade - 11.169.419/0009-45">Inocência - Cidade - 11.169.419/0009-45</option>
                     <option value="Inocência - Obra - 11.169.419/0009-45">Inocência - Obra - 11.169.419/0009-45</option>
-                    <option value="Matriz - 11.169.419/0001-98">Matriz - 11.169.419/0001-98</option>
                     <option value="Pozolana - 11.169.419/0008-64">Pozolana - 11.169.419/0008-64</option>
                     <option value="Ribas do Rio Pardo - 11.169.419/0006-00">Ribas do Rio Pardo - 11.169.419/0006-00</option>
                     <option value="Três Lagoas - 12.565.386/0001-68">Três Lagoas - 12.565.386/0001-68</option>
@@ -131,7 +130,6 @@
                     <option value="João Alcides Domingues">João Alcides Domingues</option>
                     <option value="Carol Costa Albanezi Mota">Carol Costa Albanezi Mota</option>
                     <option value="Mirelle Corrêa Nogueira Camargo">Mirelle Corrêa Nogueira Camargo</option>
-                    <option value="Geovanna Laisa Alves Garcia">Geovanna Laisa Alves Garcia</option>
                     <option value="Maria Campero">Maria Campero</option>
                     <option value="Maria Pistori">Maria Pistori</option>
                     <option value="Jean Queiroz">Jean Queiroz</option>
@@ -159,7 +157,6 @@
                     <option value="Informática">Informática</option>
                     <option value="Manutenção frota">Manutenção frota</option>
                     <option value="Manutenção usina">Manutenção usina</option>
-                    <option value="Diesel">Diesel</option>
                     <option value="Matéria prima">Matéria prima</option>
                     <option value="Material de Escritório">Material de Escritório</option>
                     <option value="Pneus">Pneus</option>
@@ -219,6 +216,7 @@
     const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbyyyVIgc_OHb0M4eHCb34VK3abjYSJWeHmLp_sJpMaZNJdWqQxiEgQqXJ2o1QmTiaMD/exec"; 
 
     let todasRequisicoes = []; 
+    let tempoUltimaBusca = 0; // Variável para o controle da Trava de Tempo (Cache)
 
     function mostrarTela(telaAlvo) {
         document.getElementById('telaNova').classList.add('escondido');
@@ -309,13 +307,11 @@
             arquivoMimeType: null
         };
 
-        // LÓGICA DE PROCESSAMENTO DO ARQUIVO ANEXO ANTES DE ENVIAR
         const inputArquivo = document.getElementById('arquivoAnexo');
         
         if (inputArquivo.files.length > 0) {
             const file = inputArquivo.files[0];
             
-            // Trava de segurança: 5MB
             if (file.size > 5 * 1024 * 1024) {
                 alert("O arquivo anexado é maior que 5MB. Por favor, escolha um arquivo menor.");
                 btnEnviar.style.display = 'block';
@@ -328,18 +324,15 @@
 
             const reader = new FileReader();
             reader.onload = function(eventoBase64) {
-                // Remove o cabeçalho 'data:image/png;base64,' para enviar só o código puro
                 payload.arquivoBase64 = eventoBase64.target.result.split(',')[1];
                 enviarParaGAS(payload);
             };
             reader.readAsDataURL(file);
         } else {
-            // Se não tiver anexo, envia direto
             enviarParaGAS(payload);
         }
     });
 
-    // Função separada para enviar os dados para o Google após o arquivo ser processado
     async function enviarParaGAS(payload) {
         try {
             const response = await fetch(URL_DO_GAS, {
@@ -358,7 +351,8 @@
                 itensMapeados = [];
                 atualizarListaHTML();
                 
-                await carregarDados(); 
+                // TRUE para furar o bloqueio de cache e atualizar a lista com a nova requisição
+                await carregarDados(true); 
                 mostrarTela('lista'); 
             } else {
                 alert(`Atenção: Houve um erro no servidor. ${result.message}`);
@@ -393,8 +387,20 @@
         return chaveEncontrada ? obj[chaveEncontrada] : '';
     }
 
-    async function carregarDados() {
+    // Função Atualizada com o Cache Inteligente (Trava de Tempo)
+    async function carregarDados(forcarUpdate = false) {
+        const agora = Date.now();
+        const TEMPO_TRAVA = 30000; // 30 segundos
+
+        if (!forcarUpdate && todasRequisicoes.length > 0 && (agora - tempoUltimaBusca < TEMPO_TRAVA)) {
+            console.log("Trava ativa: Carregando dados da memória instantaneamente.");
+            renderizarCards(todasRequisicoes);
+            return;
+        }
+
         try {
+            document.getElementById('cardsContainer').innerHTML = 'Carregando solicitações...';
+            
             const response = await fetch(URL_DO_GAS);
             const dados = await response.json(); 
             
@@ -413,6 +419,7 @@
             }
 
             todasRequisicoes = dados.requisicoes.reverse();
+            tempoUltimaBusca = Date.now(); // Atualiza o relógio marcando a hora desta busca
             renderizarCards(todasRequisicoes);
 
         } catch (error) {
@@ -447,7 +454,6 @@
             const statusRaw = obterCampo(req, 'Status');
             const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
 
-            // Verifica se a requisição tem anexo e gera o botão
             let htmlBotaoAnexo = '';
             if (linkAnexo && linkAnexo.startsWith('http')) {
                 htmlBotaoAnexo = `<a href="${linkAnexo}" target="_blank" class="btn-anexo" title="Abrir arquivo anexo">📎 Ver Anexo</a>`;
