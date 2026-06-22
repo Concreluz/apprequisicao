@@ -27,7 +27,7 @@
             min-height: 100vh;
         }
 
-        /* Container Principal - O Vidro Fosco (Liquid Glass) */
+        /* Container Principal */
         .container { 
             max-width: 850px; 
             margin: 0 auto; 
@@ -40,187 +40,72 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.06); 
         }
         
-        h2 {
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
+        h2 { font-weight: 700; letter-spacing: -0.5px; margin-top: 0; margin-bottom: 25px; }
 
-        /* Navbar estilo Segmented Control da Apple */
-        .navbar { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            background: rgba(29, 29, 31, 0.06); 
-            padding: 6px; 
-            border-radius: 16px; 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .nav-btn { 
-            flex: 1; 
-            background: transparent; 
-            color: #1d1d1f; 
-            border: none; 
-            padding: 10px 15px; 
-            cursor: pointer; 
-            font-size: 15px; 
-            font-weight: 600; 
-            border-radius: 12px; 
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
-        }
-        .nav-btn:hover { 
-            background: rgba(255, 255, 255, 0.5); 
-        }
-        .nav-btn.active { 
-            background: #e65c00; 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(230, 92, 0, 0.3);
-        }
+        /* Navbar */
+        .navbar { display: flex; gap: 10px; margin-bottom: 30px; background: rgba(29, 29, 31, 0.06); padding: 6px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.4); }
+        .nav-btn { flex: 1; background: transparent; color: #1d1d1f; border: none; padding: 10px 15px; cursor: pointer; font-size: 15px; font-weight: 600; border-radius: 12px; transition: all 0.3s ease; }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.5); }
+        .nav-btn.active { background: #e65c00; color: white; box-shadow: 0 4px 12px rgba(230, 92, 0, 0.3); }
 
         .escondido { display: none !important; }
 
-        /* Campos de Formulário */
+        /* Formulários */
         .form-group { margin-bottom: 20px; }
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            font-size: 14px;
-        }
-        input, select, textarea { 
-            width: 100%; 
-            padding: 12px 14px; 
-            background: rgba(255, 255, 255, 0.7); 
-            border: 1px solid rgba(255, 255, 255, 0.9); 
-            border-radius: 14px; 
-            font-size: 15px; 
-            color: #1d1d1f;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
-            font-family: inherit;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #e65c00;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(230, 92, 0, 0.15);
-        }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #1d1d1f; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 14px; font-size: 15px; color: #1d1d1f; transition: all 0.3s ease; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #e65c00; background: #ffffff; box-shadow: 0 0 0 4px rgba(230, 92, 0, 0.15); }
 
-        /* Botão Principal */
-        .btn { 
-            padding: 14px 20px; 
-            background: #e65c00; 
-            color: white; 
-            border: none; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(230, 92, 0, 0.25);
-        }
-        .btn:hover { 
-            background: #cc5200; 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(230, 92, 0, 0.35);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        /* Botões de Ação Menores */
-        .btn-remover { 
-            background: rgba(220, 53, 69, 0.1); 
-            color: #dc3545; 
-            border: none; 
-            padding: 6px 12px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-size: 13px; 
-            font-weight: 700; 
-            transition: 0.2s;
-        }
-        .btn-remover:hover { 
-            background: #dc3545; 
-            color: white; 
-        }
-        
-        .btn-anexo { 
-            display: inline-block; 
-            background: rgba(0, 89, 179, 0.164); 
-            color: #004da0; 
-            text-decoration: none; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.171); 
-            padding: 6px 12px; 
-            border-radius: 10px; 
-            font-size: 13px; 
-            font-weight: 600; 
-            margin-left: 10px; 
-            transition: 0.2s;
-        }
-        .btn-anexo:hover { 
-            background: #007bff9d; 
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.61);
-            color: white; 
-        }
+        /* Botões */
+        .btn { padding: 14px 20px; background: #e65c00; color: white; border: none; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(230, 92, 0, 0.25); }
+        .btn:hover { background: #cc5200; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(230, 92, 0, 0.35); }
+        .btn-remover { background: rgba(220, 53, 69, 0.1); color: #dc3545; border: none; padding: 6px 12px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 700; transition: 0.2s; }
+        .btn-remover:hover { background: #dc3545; color: white; }
+        .btn-anexo { display: inline-block; background: rgba(0, 89, 179, 0.164); color: #004da0; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.171); padding: 6px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-left: 10px; transition: 0.2s; }
+        .btn-anexo:hover { background: #007bff9d; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.61); color: white; }
 
-        /* Containers de Itens Aninhados */
-        .items-container { 
-            background: rgba(255, 255, 255, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.6); 
-            padding: 18px; 
-            border-radius: 16px; 
-        }
+        /* Form Itens */
+        .items-container { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.6); padding: 18px; border-radius: 16px; }
         .item-row { display: flex; gap: 10px; margin-bottom: 10px; }
         .item-list { margin-top: 10px; list-style: none; padding: 0; }
-        .item-list li { 
-            background: rgba(255, 255, 255, 0.65); 
-            padding: 12px 16px; 
-            border: 1px solid rgba(255, 255, 255, 0.8); 
-            border-radius: 12px; 
-            margin-bottom: 8px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
+        .item-list li { background: rgba(255, 255, 255, 0.65); padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         
-        /* Grid de Cards (Histórico) */
+        /* Grid de Cards (Histórico Expansível) */
         .cards-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 15px; }
-        .card { 
-            background: rgba(255, 255, 255, 0.062); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.8); 
-            border-radius: 20px; 
-            padding: 22px; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.384); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.815);
-        }
-        .card h4 { margin: 0 0 10px 0; color: #1d1d1f; font-size: 17px; display: flex; justify-content: space-between; align-items: center;}
-        .card .status-line { font-size: 13px; color: #535353; margin-bottom: 15px; font-weight: 500; }
-        .card .item-line { font-size: 15px; color: #1d1d1f; margin-bottom: 18px; line-height: 1.4; }
-        .card .footer-line { font-size: 13px; color: #1d1d1f; display: flex; justify-content: space-between; align-items: center; font-weight: 500;}
+        .card { background: rgba(255, 255, 255, 0.103); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.5); }
         
-        #loading { display: none; margin-top: 15px; color: #e65c00; font-weight: 600; text-align: center; }
+        /* Área Clicável do Card */
+        .card-header { padding: 22px; cursor: pointer; }
+        .card-header h4 { margin: 0 0 10px 0; color: #1d1d1f; font-size: 17px; display: flex; justify-content: space-between; align-items: center;}
+        .card-header .status-line { font-size: 14px; color: #444; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .card-header .footer-line { font-size: 13px; color: #1d1d1f; display: flex; justify-content: space-between; align-items: center; font-weight: 500;}
+        
+        .chevron { transition: transform 0.3s ease; font-size: 14px; color: #888; }
+        
+        /* Área Oculta dos Itens (Expansão) */
+        .card-body { display: none; padding: 0 22px 22px 22px; background: rgba(255, 255, 255, 0.164); border-top: 1px solid rgba(255, 255, 255, 0.6); }
+        .tabela-itens { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .linha-item { background: rgba(255, 255, 255, 0.281); padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr 1fr; gap: 10px; align-items: center; font-size: 14px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .linha-item-header { background: transparent; padding: 0 12px; display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr 1fr; gap: 10px; font-size: 12px; font-weight: bold; color: #555; text-transform: uppercase; margin-bottom: 4px; }
+        
+        .badge-status { background: rgba(230, 92, 0, 0.15); color: #cc5200; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
-        /* Barra de Pesquisa */
-        .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        @media (max-width: 600px) {
-            .search-bar { flex-direction: column; }
+        @media (max-width: 768px) {
+            .linha-item, .linha-item-header { grid-template-columns: 1fr; gap: 5px; }
+            .linha-item-header { display: none; } /* Oculta cabeçalho em telas pequenas */
+            .linha-item { padding: 15px; }
+            .linha-item div::before { content: attr(data-label) ": "; font-weight: bold; color: #555; }
         }
+
+        #loading { display: none; margin-top: 15px; color: #e65c00; font-weight: 600; text-align: center; }
+        .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
+        @media (max-width: 600px) { .search-bar { flex-direction: column; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    
     <div class="navbar">
         <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Requisições</button>
         <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Criar Nova Requisição</button>
@@ -228,27 +113,22 @@
 
     <div id="telaLista">
         <h2>Requisições Recentes</h2>
-        
         <div class="search-bar">
-            <input type="text" id="inputPesquisa" placeholder="Pesquisar requisição..." oninput="filtrarRequisicoes()">
+            <input type="text" id="inputPesquisa" placeholder="Pesquisar requisição, itens ou comprador..." oninput="filtrarRequisicoes()">
             <select id="filtroPesquisa" onchange="filtrarRequisicoes()">
                 <option value="todos">Todos os campos</option>
                 <option value="id">Nº Requisição</option>
-                <option value="comprador">Comprador</option>
-                <option value="solicitante">Solicitante</option>
                 <option value="unidade">Unidade</option>
-                <option value="prazo">Prazo</option>
+                <option value="solicitante">Solicitante</option>
             </select>
         </div>
-
-        <div class="cards-grid" id="cardsContainer">
-            Carregando solicitações...
-        </div>
+        <div class="cards-grid" id="cardsContainer">Carregando solicitações...</div>
     </div>
 
     <div id="telaNova" class="escondido">
         <h2>Criar Requisição</h2>
         <form id="requisicaoForm">
+            <!-- (Manter os mesmos selects de Unidade, Solicitante, Tipo e Grupo idênticos ao código anterior) -->
             <div class="form-group">
                 <label>Unidade</label>
                 <select id="unidade" required>
@@ -298,6 +178,7 @@
                     <option value="Mirelle Corrêa Nogueira Camargo">Mirelle Corrêa Nogueira Camargo</option>
                     <option value="Maria Campero">Maria Campero</option>
                     <option value="Maria Pistori">Maria Pistori</option>
+                    <option value="Samuel Gomes Costa">Samuel Gomes Costa</option>
                     <option value="Jean Queiroz">Jean Queiroz</option>
                     <option value="Danilo Queiroz">Danilo Queiroz</option>
                     <option value="Mauricio Alves dos Santos">Mauricio Alves dos Santos</option>
@@ -335,7 +216,6 @@
                 <div class="item-row">
                     <input type="text" id="nomeItem" list="historicoItens" placeholder="Nome do item (ex: Mouse)">
                     <datalist id="historicoItens"></datalist>
-                    
                     <input type="number" id="qtdItem" placeholder="Qtd" style="width: 80px;">
                     <button type="button" class="btn" onclick="adicionarItem()">Novo</button>
                 </div>
@@ -346,17 +226,14 @@
                 <label>Prazo Desejado</label>
                 <input type="date" id="prazo" required>
             </div>
-
             <div class="form-group">
                 <label>Aplicação</label>
                 <textarea id="aplicacao" rows="2"></textarea>
             </div>
-
             <div class="form-group">
                 <label>Justificativa</label>
                 <textarea id="justificativa" rows="2"></textarea>
             </div>
-
             <div class="form-group">
                 <label>Urgente?</label>
                 <select id="urgente" required>
@@ -364,25 +241,22 @@
                     <option value="Sim">Sim</option>
                 </select>
             </div>
-
             <div class="form-group items-container">
                 <label>Anexar Arquivo (Opcional - Máx. 5MB)</label>
                 <input type="file" id="arquivoAnexo" accept=".pdf, image/png, image/jpeg, image/jpg">
-                <small style="color: #666; display: block; margin-top: 5px; font-size: 13px;">Formatos aceitos: PDF, PNG ou JPG.</small>
             </div>
 
             <button type="submit" class="btn" style="width: 100%; margin-top: 10px;" id="btnEnviar">Enviar Requisição</button>
             <div id="loading">Enviando dados e arquivo... por favor, aguarde.</div>
         </form>
     </div>
-
 </div>
 
 <script>
-    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbyyyVIgc_OHb0M4eHCb34VK3abjYSJWeHmLp_sJpMaZNJdWqQxiEgQqXJ2o1QmTiaMD/exec"; 
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbyZ9pxOS36ZWRM2owl1zrptgealSn98mXUCF2Gc97n6QWj_snAAur548chcept2G1aW/exec"; 
 
     let todasRequisicoes = []; 
-    let tempoUltimaBusca = 0; // Variável para o controle da Trava de Tempo (Cache)
+    let tempoUltimaBusca = 0; 
 
     function mostrarTela(telaAlvo) {
         document.getElementById('telaNova').classList.add('escondido');
@@ -400,12 +274,23 @@
         }
     }
 
-    let itensMapeados = [];
+    // --- NOVA FUNÇÃO DE EXPANSÃO (ANIMAÇÃO) ---
+    function toggleCard(id) {
+        const body = document.getElementById(`body-${id}`);
+        const chev = document.getElementById(`chev-${id}`);
+        if (body.style.display === 'none' || body.style.display === '') {
+            body.style.display = 'block';
+            chev.style.transform = 'rotate(180deg)';
+        } else {
+            body.style.display = 'none';
+            chev.style.transform = 'rotate(0deg)';
+        }
+    }
 
+    let itensMapeados = [];
     function adicionarItem() {
         const nome = document.getElementById('nomeItem').value;
         const qtd = document.getElementById('qtdItem').value;
-        
         if(nome && qtd) {
             itensMapeados.push({nome: nome, qtd: qtd});
             atualizarListaHTML();
@@ -424,39 +309,24 @@
         const ul = document.getElementById('listaItensHTML');
         ul.innerHTML = '';
         itensMapeados.forEach((item, index) => {
-            ul.innerHTML += `
-                <li>
-                    <span>${item.nome} <b>(${item.qtd})</b></span>
-                    <button type="button" class="btn-remover" onclick="removerItem(${index})" title="Remover item">X</button>
-                </li>`;
+            ul.innerHTML += `<li><span>${item.nome} <b>(${item.qtd})</b></span><button type="button" class="btn-remover" onclick="removerItem(${index})">X</button></li>`;
         });
     }
 
     document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
             e.preventDefault(); 
-            if (e.target.id === 'nomeItem' || e.target.id === 'qtdItem') {
-                adicionarItem();
-            }
+            if (e.target.id === 'nomeItem' || e.target.id === 'qtdItem') adicionarItem();
         }
     });
 
     document.getElementById('requisicaoForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        if(itensMapeados.length === 0) {
-            alert('Adicione pelo menos um item!');
-            return;
-        }
+        if(itensMapeados.length === 0) { alert('Adicione pelo menos um item!'); return; }
+        if (!confirm("Confirma o envio desta requisição?")) return;
 
-        const confirmacao = confirm("Confirma o envio desta requisição?");
-        if (!confirmacao) return;
-
-        const btnEnviar = document.getElementById('btnEnviar');
-        const divLoading = document.getElementById('loading');
-        
-        btnEnviar.style.display = 'none';
-        divLoading.style.display = 'block';
+        document.getElementById('btnEnviar').style.display = 'none';
+        document.getElementById('loading').style.display = 'block';
 
         const payload = {
             unidade: document.getElementById('unidade').value,
@@ -468,31 +338,21 @@
             aplicacao: document.getElementById('aplicacao').value,
             justificativa: document.getElementById('justificativa').value,
             urgente: document.getElementById('urgente').value,
-            arquivoBase64: null,
-            arquivoNome: null,
-            arquivoMimeType: null
+            arquivoBase64: null, arquivoNome: null, arquivoMimeType: null
         };
 
         const inputArquivo = document.getElementById('arquivoAnexo');
-        
         if (inputArquivo.files.length > 0) {
             const file = inputArquivo.files[0];
-            
             if (file.size > 5 * 1024 * 1024) {
-                alert("O arquivo anexado é maior que 5MB. Por favor, escolha um arquivo menor.");
-                btnEnviar.style.display = 'block';
-                divLoading.style.display = 'none';
+                alert("Arquivo maior que 5MB.");
+                document.getElementById('btnEnviar').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
                 return;
             }
-
-            payload.arquivoNome = file.name;
-            payload.arquivoMimeType = file.type;
-
+            payload.arquivoNome = file.name; payload.arquivoMimeType = file.type;
             const reader = new FileReader();
-            reader.onload = function(eventoBase64) {
-                payload.arquivoBase64 = eventoBase64.target.result.split(',')[1];
-                enviarParaGAS(payload);
-            };
+            reader.onload = function(evento) { payload.arquivoBase64 = evento.target.result.split(',')[1]; enviarParaGAS(payload); };
             reader.readAsDataURL(file);
         } else {
             enviarParaGAS(payload);
@@ -501,35 +361,17 @@
 
     async function enviarParaGAS(payload) {
         try {
-            const response = await fetch(URL_DO_GAS, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            });
-
+            const response = await fetch(URL_DO_GAS, { method: 'POST', body: JSON.stringify(payload) });
             const result = await response.json();
-            
             if(result.status === "success") {
-                const numeroReq = result.id ? `#${result.id} ` : '';
-                alert(`Requisição ${numeroReq}enviada com sucesso!`);
-                
+                alert(`Requisição enviada com sucesso!`);
                 document.getElementById('requisicaoForm').reset();
-                itensMapeados = [];
-                atualizarListaHTML();
-                
-                // TRUE para furar o bloqueio de cache e atualizar a lista com a nova requisição
+                itensMapeados = []; atualizarListaHTML();
                 await carregarDados(true); 
                 mostrarTela('lista'); 
-            } else {
-                alert(`Atenção: Houve um erro no servidor. ${result.message}`);
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Erro de conexão ao enviar a requisição.");
-        } finally {
-            document.getElementById('btnEnviar').style.display = 'block';
-            document.getElementById('loading').style.display = 'none';
-        }
+            } else { alert(`Erro no servidor: ${result.message}`); }
+        } catch (error) { alert("Erro de conexão."); } 
+        finally { document.getElementById('btnEnviar').style.display = 'block'; document.getElementById('loading').style.display = 'none'; }
     }
 
     function formatarDataBR(dataStr) {
@@ -537,102 +379,89 @@
         let limpo = String(dataStr).split('T')[0]; 
         if (limpo.includes('-')) {
             let partes = limpo.split('-');
-            if (partes.length === 3 && partes[0].length === 4) {
-                return `${partes[2]}/${partes[1]}/${partes[0]}`;
-            }
+            if (partes.length === 3) return `${partes[2]}/${partes[1]}/${partes[0]}`;
         }
         return limpo; 
     }
 
-    function obterCampo(obj, nomeCampo) {
-        if (!obj) return '';
-        const nomeLimpo = nomeCampo.toLowerCase().replace(/[:\s/]/g, '');
-        const chaveEncontrada = Object.keys(obj).find(k => 
-            k.toLowerCase().replace(/[:\s/]/g, '') === nomeLimpo
-        );
-        return chaveEncontrada ? obj[chaveEncontrada] : '';
-    }
-
-    // Função Atualizada com o Cache Inteligente (Trava de Tempo)
     async function carregarDados(forcarUpdate = false) {
         const agora = Date.now();
-        const TEMPO_TRAVA = 30000; // 30 segundos
-
-        if (!forcarUpdate && todasRequisicoes.length > 0 && (agora - tempoUltimaBusca < TEMPO_TRAVA)) {
-            console.log("Trava ativa: Carregando dados da memória instantaneamente.");
-            renderizarCards(todasRequisicoes);
-            return;
+        if (!forcarUpdate && todasRequisicoes.length > 0 && (agora - tempoUltimaBusca < 30000)) {
+            renderizarCards(todasRequisicoes); return;
         }
-
         try {
             document.getElementById('cardsContainer').innerHTML = 'Carregando solicitações...';
-            
             const response = await fetch(URL_DO_GAS);
             const dados = await response.json(); 
             
             const datalist = document.getElementById('historicoItens');
             datalist.innerHTML = '';
-            dados.itensHistorico.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                datalist.appendChild(option);
-            });
-
-            if (dados.requisicoes.length === 0) {
-                document.getElementById('cardsContainer').innerHTML = 'Nenhuma requisição encontrada.';
-                todasRequisicoes = [];
-                return;
-            }
+            dados.itensHistorico.forEach(item => { datalist.appendChild(new Option(item, item)); });
 
             todasRequisicoes = dados.requisicoes.reverse();
-            tempoUltimaBusca = Date.now(); // Atualiza o relógio marcando a hora desta busca
+            tempoUltimaBusca = Date.now();
             renderizarCards(todasRequisicoes);
-
-        } catch (error) {
-            console.error("Erro ao carregar os dados", error);
-            document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar os dados. Verifique o console.';
-        }
+        } catch (error) { document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar.'; }
     }
 
+    // --- NOVA RENDERIZAÇÃO DOS CARDS EXPANSÍVEIS ---
     function renderizarCards(listaDeRequisicoes) {
         const container = document.getElementById('cardsContainer');
         container.innerHTML = '';
 
-        if (listaDeRequisicoes.length === 0) {
-            container.innerHTML = 'Nenhuma requisição encontrada para esta pesquisa.';
-            return;
-        }
+        if (listaDeRequisicoes.length === 0) { container.innerHTML = 'Nenhuma requisição encontrada.'; return; }
 
         listaDeRequisicoes.forEach(req => {
-            const id = obterCampo(req, 'ID');
-            const urgente = obterCampo(req, 'Urgente');
-            const unidade = obterCampo(req, 'Unidade');
-            const solicitante = obterCampo(req, 'Solicitante');
-            const itensTexto = obterCampo(req, 'Descrição do item / serviço') || 'Sem itens informados';
-            const linkAnexo = obterCampo(req, 'Anexos');
+            const id = req.ID || '--';
+            const urgente = req.Urgente || 'Não';
+            const unidade = req.Unidade || '--';
+            const solicitante = req.Solicitante || '--';
+            const prazoFormatado = formatarDataBR(req.Prazo);
+            const linkAnexo = req.Anexos;
             
-            const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
-            const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
-            
-            const compradorRaw = obterCampo(req, 'Comprador');
-            const comprador = compradorRaw && compradorRaw !== '#N/A' && compradorRaw !== '' ? compradorRaw : 'Pendente';
-            
-            const statusRaw = obterCampo(req, 'Status');
-            const status = statusRaw && statusRaw !== '#N/A' && statusRaw !== '' ? statusRaw : 'Aguardando Aprovação';
-
             let htmlBotaoAnexo = '';
             if (linkAnexo && linkAnexo.startsWith('http')) {
-                htmlBotaoAnexo = `<a href="${linkAnexo}" target="_blank" class="btn-anexo" title="Abrir arquivo anexo">Ver Anexo</a>`;
+                // Previne que o clique no anexo acione a abertura do Card
+                htmlBotaoAnexo = `<a href="${linkAnexo}" target="_blank" class="btn-anexo" onclick="event.stopPropagation();">📎 Ver Anexo</a>`;
             }
 
+            // Constrói as linhas internas detalhadas da tabela de itens
+            let linhasItensHTML = '';
+            if (req.itens && req.itens.length > 0) {
+                linhasItensHTML = `<div class="linha-item-header">
+                                     <div>Nome do Item</div><div>Qtd</div><div>Comprador</div><div>Status</div><div>Previsão</div>
+                                   </div>`;
+                req.itens.forEach(item => {
+                    linhasItensHTML += `
+                        <div class="linha-item">
+                            <div data-label="Item">${item.nome}</div>
+                            <div data-label="Qtd">${item.qtd}</div>
+                            <div data-label="Comprador">${item.comprador}</div>
+                            <div data-label="Status"><span class="badge-status">${item.status}</span></div>
+                            <div data-label="Previsão">${formatarDataBR(item.previsao)}</div>
+                        </div>`;
+                });
+            } else {
+                linhasItensHTML = `<div style="text-align: center; color: #666; padding: 10px;">Sem itens cadastrados nesta requisição.</div>`;
+            }
+
+            // Estrutura do Card Principal Clicável
             const cardHTML = `
                 <div class="card">
-                    <h4>Requisição #${id} - Urgente: ${urgente}</h4>
-                    <div class="status-line">${comprador} - ${status} - Previsão/data entrega: ${previsao}</div>
-                    <div class="item-line"><b>Itens:</b> ${itensTexto}</div>
-                    <div class="footer-line">
-                        <span>${unidade} | ${solicitante} | Prazo: ${prazoFormatado}</span>
-                        ${htmlBotaoAnexo}
+                    <div class="card-header" onclick="toggleCard('${id}')">
+                        <h4>Requisição #${id} - Urgente: ${urgente} <span id="chev-${id}" class="chevron">▼</span></h4>
+                        <div class="status-line">
+                            Contém ${req.itens ? req.itens.length : 0} item(ns) (Clique para expandir detalhes)
+                        </div>
+                        <div class="footer-line">
+                            <span>${unidade} | ${solicitante} | Prazo Geral: ${prazoFormatado}</span>
+                            ${htmlBotaoAnexo}
+                        </div>
+                    </div>
+                    <div class="card-body" id="body-${id}">
+                        <div class="tabela-itens">
+                            ${linhasItensHTML}
+                        </div>
                     </div>
                 </div>
             `;
@@ -640,44 +469,34 @@
         });
     }
 
+    // --- NOVA LÓGICA DE PESQUISA (Pesquisa dentro dos itens também) ---
     function filtrarRequisicoes() {
         const termo = document.getElementById('inputPesquisa').value.toLowerCase().trim();
-        const filtroSelecionado = document.getElementById('filtroPesquisa').value;
+        const filtro = document.getElementById('filtroPesquisa').value;
 
-        if (termo === '') {
-            renderizarCards(todasRequisicoes);
-            return;
-        }
+        if (termo === '') { renderizarCards(todasRequisicoes); return; }
 
         const listaFiltrada = todasRequisicoes.filter(req => {
-            const id = obterCampo(req, 'ID');
-            const comprador = (obterCampo(req, 'Comprador') && obterCampo(req, 'Comprador') !== '#N/A') ? obterCampo(req, 'Comprador') : 'Pendente';
-            const solicitante = obterCampo(req, 'Solicitante');
-            const unidade = obterCampo(req, 'Unidade');
-            const prazoFormatado = formatarDataBR(obterCampo(req, 'Prazo'));
-
-            if (filtroSelecionado === 'id') return String(id).toLowerCase().includes(termo);
-            if (filtroSelecionado === 'comprador') return String(comprador).toLowerCase().includes(termo);
-            if (filtroSelecionado === 'solicitante') return String(solicitante).toLowerCase().includes(termo);
-            if (filtroSelecionado === 'unidade') return String(unidade).toLowerCase().includes(termo);
-            if (filtroSelecionado === 'prazo') return String(prazoFormatado).toLowerCase().includes(termo);
+            if (filtro === 'id') return String(req.ID).toLowerCase().includes(termo);
+            if (filtro === 'unidade') return String(req.Unidade).toLowerCase().includes(termo);
+            if (filtro === 'solicitante') return String(req.Solicitante).toLowerCase().includes(termo);
             
-            if (filtroSelecionado === 'todos') {
-                const urgente = obterCampo(req, 'Urgente');
-                const status = (obterCampo(req, 'Status') && obterCampo(req, 'Status') !== '#N/A') ? obterCampo(req, 'Status') : 'Aguardando Aprovação';
-                const previsao = formatarDataBR(obterCampo(req, 'Previsão'));
-                const itensTexto = obterCampo(req, 'Descrição do item / serviço');
-
-                const todoConteudo = `${id} ${comprador} ${solicitante} ${unidade} ${prazoFormatado} ${urgente} ${status} ${previsao} ${itensTexto}`.toLowerCase();
-                return todoConteudo.includes(termo);
+            if (filtro === 'todos') {
+                // Junta dados principais
+                let todoConteudo = `${req.ID} ${req.Unidade} ${req.Solicitante} ${req.Urgente} ${formatarDataBR(req.Prazo)}`.toLowerCase();
+                // Junta dados de todos os itens (Nome, comprador, status) para permitir pesquisar por "Mouse" ou "João Bini"
+                if (req.itens) {
+                    req.itens.forEach(i => {
+                        todoConteudo += ` ${i.nome} ${i.comprador} ${i.status}`;
+                    });
+                }
+                return todoConteudo.toLowerCase().includes(termo);
             }
         });
-
         renderizarCards(listaFiltrada);
     }
 
     window.onload = carregarDados;
 </script>
-
 </body>
 </html>
