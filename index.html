@@ -242,8 +242,17 @@
                 </select>
             </div>
             <div class="form-group items-container">
-                <label>Anexar Arquivo (Opcional - Máx. 5MB)</label>
-                <input type="file" id="arquivoAnexo" accept=".pdf, image/png, image/jpeg, image/jpg">
+                <label>Anexos (Opcional - Máx. 10MB no total)</label>
+                
+                <input type="file" id="arquivoAnexo" accept=".pdf, image/png, image/jpeg, image/jpg" multiple style="display: none;">
+                
+                <button type="button" class="btn" id="btnAdicionarAnexo" style="background: #007aff; margin-bottom: 5px; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.25);">
+                    Adicionar Anexo
+                </button>
+                
+                <small style="color: #666; display: block; margin-top: 5px; font-size: 13px;">Formatos aceites: PDF, PNG ou JPG.</small>
+                
+                <ul class="item-list" id="listaAnexosHTML"></ul>
             </div>
 
             <button type="submit" class="btn" style="width: 100%; margin-top: 10px;" id="btnEnviar">Enviar Requisição</button>
@@ -253,11 +262,14 @@
 </div>
 
 <script>
-    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbyZ9pxOS36ZWRM2owl1zrptgealSn98mXUCF2Gc97n6QWj_snAAur548chcept2G1aW/exec"; 
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbxmWpN2H-AqTxvMVoHiRoaceScMdDqg7KgSvcrS4vjhnZOp2owwU09MC0Om8dSCTKsx/exec"; 
 
     let todasRequisicoes = []; 
     let tempoUltimaBusca = 0; 
+    let itensMapeados = [];
+    let arquivosSelecionados = []; // Nova memória para os anexos múltiplos
 
+    // --- NAVEGAÇÃO ---
     function mostrarTela(telaAlvo) {
         document.getElementById('telaNova').classList.add('escondido');
         document.getElementById('telaLista').classList.add('escondido');
@@ -274,7 +286,7 @@
         }
     }
 
-    // --- NOVA FUNÇÃO DE EXPANSÃO (ANIMAÇÃO) ---
+    // --- ANIMAÇÃO DE EXPANSÃO DOS CARDS ---
     function toggleCard(id) {
         const body = document.getElementById(`body-${id}`);
         const chev = document.getElementById(`chev-${id}`);
@@ -287,7 +299,7 @@
         }
     }
 
-    let itensMapeados = [];
+    // --- GESTÃO DE ITENS ---
     function adicionarItem() {
         const nome = document.getElementById('nomeItem').value;
         const qtd = document.getElementById('qtdItem').value;
@@ -313,6 +325,39 @@
         });
     }
 
+    // --- GESTÃO VISUAL DE MÚLTIPLOS ANEXOS ---
+    document.getElementById('btnAdicionarAnexo').addEventListener('click', () => {
+        document.getElementById('arquivoAnexo').click();
+    });
+
+    document.getElementById('arquivoAnexo').addEventListener('change', function(e) {
+        const files = e.target.files;
+        for (let i = 0; i < files.length; i++) {
+            arquivosSelecionados.push(files[i]);
+        }
+        atualizarListaAnexos();
+        this.value = ''; // Limpa o input escondido
+    });
+
+    function removerAnexo(index) {
+        arquivosSelecionados.splice(index, 1);
+        atualizarListaAnexos();
+    }
+
+    function atualizarListaAnexos() {
+        const ul = document.getElementById('listaAnexosHTML');
+        ul.innerHTML = '';
+        arquivosSelecionados.forEach((file, index) => {
+            const tamanhoMB = (file.size / (1024 * 1024)).toFixed(2);
+            ul.innerHTML += `
+                <li>
+                    <span>📄 ${file.name} <b>(${tamanhoMB} MB)</b></span>
+                    <button type="button" class="btn-remover" onclick="removerAnexo(${index})" title="Remover anexo">X</button>
+                </li>`;
+        });
+    }
+
+    // --- BLOQUEIO DO ENTER ---
     document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
             e.preventDefault(); 
@@ -320,6 +365,7 @@
         }
     });
 
+    // --- ENVIO DO FORMULÁRIO ---
     document.getElementById('requisicaoForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         if(itensMapeados.length === 0) { alert('Adicione pelo menos um item!'); return; }
@@ -338,35 +384,63 @@
             aplicacao: document.getElementById('aplicacao').value,
             justificativa: document.getElementById('justificativa').value,
             urgente: document.getElementById('urgente').value,
-            arquivoBase64: null, arquivoNome: null, arquivoMimeType: null
+            arquivos: [] // Array para os ficheiros
         };
 
-        const inputArquivo = document.getElementById('arquivoAnexo');
-        if (inputArquivo.files.length > 0) {
-            const file = inputArquivo.files[0];
-            if (file.size > 5 * 1024 * 1024) {
-                alert("Arquivo maior que 5MB.");
+        if (arquivosSelecionados.length > 0) {
+            let tamanhoTotal = 0;
+            
+            for(let i = 0; i < arquivosSelecionados.length; i++) {
+                tamanhoTotal += arquivosSelecionados[i].size;
+            }
+            
+            if (tamanhoTotal > 10 * 1024 * 1024) {
+                alert("O tamanho total dos anexos excede 10MB. Por favor, remova ou comprima alguns ficheiros.");
                 document.getElementById('btnEnviar').style.display = 'block';
                 document.getElementById('loading').style.display = 'none';
                 return;
             }
-            payload.arquivoNome = file.name; payload.arquivoMimeType = file.type;
-            const reader = new FileReader();
-            reader.onload = function(evento) { payload.arquivoBase64 = evento.target.result.split(',')[1]; enviarParaGAS(payload); };
-            reader.readAsDataURL(file);
+
+            const promessasFicheiros = arquivosSelecionados.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(evento) {
+                        resolve({
+                            nome: file.name,
+                            mimeType: file.type,
+                            base64: evento.target.result.split(',')[1]
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            Promise.all(promessasFicheiros).then(arquivosProcessados => {
+                payload.arquivos = arquivosProcessados;
+                enviarParaGAS(payload);
+            });
+            
         } else {
             enviarParaGAS(payload);
         }
     });
 
+    // --- COMUNICAÇÃO COM O GOOGLE APPS SCRIPT ---
     async function enviarParaGAS(payload) {
         try {
             const response = await fetch(URL_DO_GAS, { method: 'POST', body: JSON.stringify(payload) });
             const result = await response.json();
+            
             if(result.status === "success") {
                 alert(`Requisição enviada com sucesso!`);
                 document.getElementById('requisicaoForm').reset();
-                itensMapeados = []; atualizarListaHTML();
+                
+                // Limpa todas as memórias após o sucesso
+                itensMapeados = []; 
+                arquivosSelecionados = []; 
+                atualizarListaHTML();
+                atualizarListaAnexos(); 
+                
                 await carregarDados(true); 
                 mostrarTela('lista'); 
             } else { alert(`Erro no servidor: ${result.message}`); }
@@ -374,6 +448,7 @@
         finally { document.getElementById('btnEnviar').style.display = 'block'; document.getElementById('loading').style.display = 'none'; }
     }
 
+    // --- HELPERS E FORMATAÇÃO ---
     function formatarDataBR(dataStr) {
         if (!dataStr) return '--/--/----';
         let limpo = String(dataStr).split('T')[0]; 
@@ -384,6 +459,7 @@
         return limpo; 
     }
 
+    // --- CARREGAMENTO DE DADOS (CACHE 30S E EAGER LOADING) ---
     async function carregarDados(forcarUpdate = false) {
         const agora = Date.now();
         if (!forcarUpdate && todasRequisicoes.length > 0 && (agora - tempoUltimaBusca < 30000)) {
@@ -404,7 +480,7 @@
         } catch (error) { document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar.'; }
     }
 
-    // --- NOVA RENDERIZAÇÃO DOS CARDS EXPANSÍVEIS ---
+    // --- RENDERIZAÇÃO DOS CARDS EXPANSÍVEIS ---
     function renderizarCards(listaDeRequisicoes) {
         const container = document.getElementById('cardsContainer');
         container.innerHTML = '';
@@ -419,13 +495,17 @@
             const prazoFormatado = formatarDataBR(req.Prazo);
             const linkAnexo = req.Anexos;
             
+            // Separa os múltiplos anexos por \n ou vírgula e cria botões
             let htmlBotaoAnexo = '';
-            if (linkAnexo && linkAnexo.startsWith('http')) {
-                // Previne que o clique no anexo acione a abertura do Card
-                htmlBotaoAnexo = `<a href="${linkAnexo}" target="_blank" class="btn-anexo" onclick="event.stopPropagation();">📎 Ver Anexo</a>`;
+            if (linkAnexo) {
+                const listaLinks = linkAnexo.split(/\r?\n|,/).map(l => l.trim()).filter(l => l.startsWith('http'));
+                listaLinks.forEach((link, index) => {
+                    const textoBotao = listaLinks.length === 1 ? '📎 Ver Anexo' : `📎 Anexo ${index + 1}`;
+                    htmlBotaoAnexo += `<a href="${link}" target="_blank" class="btn-anexo" onclick="event.stopPropagation();">${textoBotao}</a>`;
+                });
             }
 
-            // Constrói as linhas internas detalhadas da tabela de itens
+            // Constrói as linhas da tabela de itens
             let linhasItensHTML = '';
             if (req.itens && req.itens.length > 0) {
                 linhasItensHTML = `<div class="linha-item-header">
@@ -445,17 +525,16 @@
                 linhasItensHTML = `<div style="text-align: center; color: #666; padding: 10px;">Sem itens cadastrados nesta requisição.</div>`;
             }
 
-            // Estrutura do Card Principal Clicável
             const cardHTML = `
                 <div class="card">
                     <div class="card-header" onclick="toggleCard('${id}')">
                         <h4>Requisição #${id} - Urgente: ${urgente} <span id="chev-${id}" class="chevron">▼</span></h4>
                         <div class="status-line">
-                            Contém ${req.itens ? req.itens.length : 0} item(ns) (Clique para expandir detalhes)
+                            📋 Contém ${req.itens ? req.itens.length : 0} item(ns) (Clique para expandir detalhes)
                         </div>
                         <div class="footer-line">
                             <span>${unidade} | ${solicitante} | Prazo Geral: ${prazoFormatado}</span>
-                            ${htmlBotaoAnexo}
+                            <div>${htmlBotaoAnexo}</div>
                         </div>
                     </div>
                     <div class="card-body" id="body-${id}">
@@ -469,7 +548,7 @@
         });
     }
 
-    // --- NOVA LÓGICA DE PESQUISA (Pesquisa dentro dos itens também) ---
+    // --- LÓGICA DE PESQUISA AVANÇADA ---
     function filtrarRequisicoes() {
         const termo = document.getElementById('inputPesquisa').value.toLowerCase().trim();
         const filtro = document.getElementById('filtroPesquisa').value;
@@ -482,9 +561,7 @@
             if (filtro === 'solicitante') return String(req.Solicitante).toLowerCase().includes(termo);
             
             if (filtro === 'todos') {
-                // Junta dados principais
                 let todoConteudo = `${req.ID} ${req.Unidade} ${req.Solicitante} ${req.Urgente} ${formatarDataBR(req.Prazo)}`.toLowerCase();
-                // Junta dados de todos os itens (Nome, comprador, status) para permitir pesquisar por "Mouse" ou "João Bini"
                 if (req.itens) {
                     req.itens.forEach(i => {
                         todoConteudo += ` ${i.nome} ${i.comprador} ${i.status}`;
