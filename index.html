@@ -91,6 +91,41 @@
         
         .badge-status { background: rgba(230, 92, 0, 0.15); color: #cc5200; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
+        /* --- CORES DOS STATUS (Padrão Google Sheets) --- */
+        .status-pendente { background-color: #fce5cd !important; color: #b45f06 !important; }
+        .status-aguardando { background-color: #ebebeb !important; color: #333333 !important; }
+        .status-cotacao { background-color: #d9ead3 !important; color: #38761d !important; }
+        .status-pedido { background-color: #0b5394 !important; color: white !important; }
+        .status-entregue { background-color: #12753a !important; color: white !important; }
+        .status-cancelado { background-color: #b30000 !important; color: white !important; }
+        .status-padrao { background-color: rgba(230, 92, 0, 0.15); color: #cc5200; }
+
+        /* --- BOTÃO FLUTUANTE DE AJUDA (WhatsApp) --- */
+        .btn-ajuda-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #31b5ed; /* Azul igual ao da sua imagem */
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-ajuda-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .btn-ajuda-float svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+
         @media (max-width: 768px) {
             .linha-item, .linha-item-header { grid-template-columns: 1fr; gap: 5px; }
             .linha-item-header { display: none; } /* Oculta cabeçalho em telas pequenas */
@@ -480,6 +515,23 @@
         } catch (error) { document.getElementById('cardsContainer').innerHTML = 'Falha ao carregar.'; }
     }
 
+    // --- FUNÇÃO PARA DESCOBRIR A COR DO STATUS ---
+    function obterClasseCorStatus(statusTexto) {
+        if (!statusTexto) return 'status-padrao';
+        
+        // Coloca tudo em minúsculas para não haver erros de digitação (ex: PENDENTE, pendente)
+        const s = statusTexto.toLowerCase().trim(); 
+        
+        if (s === 'pendente') return 'status-pendente';
+        if (s === 'aguardando aprovação') return 'status-aguardando';
+        if (s === 'em cotação') return 'status-cotacao';
+        if (s === 'pedido emitido') return 'status-pedido';
+        if (s === 'entregue') return 'status-entregue';
+        if (s === 'cancelado') return 'status-cancelado';
+        
+        return 'status-padrao'; // Cor padrão laranja se for um texto diferente
+    }
+
     // --- RENDERIZAÇÃO DOS CARDS EXPANSÍVEIS ---
     function renderizarCards(listaDeRequisicoes) {
         const container = document.getElementById('cardsContainer');
@@ -500,7 +552,7 @@
             if (linkAnexo) {
                 const listaLinks = linkAnexo.split(/\r?\n|,/).map(l => l.trim()).filter(l => l.startsWith('http'));
                 listaLinks.forEach((link, index) => {
-                    const textoBotao = listaLinks.length === 1 ? '📎 Ver Anexo' : `📎 Anexo ${index + 1}`;
+                    const textoBotao = listaLinks.length === 1 ? 'Ver Anexo' : `Anexo ${index + 1}`;
                     htmlBotaoAnexo += `<a href="${link}" target="_blank" class="btn-anexo" onclick="event.stopPropagation();">${textoBotao}</a>`;
                 });
             }
@@ -517,7 +569,7 @@
                             <div data-label="Item">${item.nome}</div>
                             <div data-label="Qtd">${item.qtd}</div>
                             <div data-label="Comprador">${item.comprador}</div>
-                            <div data-label="Status"><span class="badge-status">${item.status}</span></div>
+                            <div data-label="Status"><span class="badge-status ${obterClasseCorStatus(item.status)}">${item.status}</span></div>
                             <div data-label="Previsão">${formatarDataBR(item.previsao)}</div>
                         </div>`;
                 });
@@ -575,5 +627,13 @@
 
     window.onload = carregarDados;
 </script>
+
+<a href="https://wa.me/5567996194026" target="_blank" class="btn-ajuda-float" title="Ajuda e Dúvidas">
+    <svg viewBox="0 0 24 24">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/>
+        <path d="M7 9h10v2H7zm0-3h10v2H7zm0 6h7v2H7z"/>
+    </svg>
+</a>
+
 </body>
 </html>
