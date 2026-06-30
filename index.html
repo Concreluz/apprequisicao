@@ -100,11 +100,17 @@
         .status-cancelado { background-color: #b30000 !important; color: white !important; }
         .status-padrao { background-color: rgba(230, 92, 0, 0.15); color: #cc5200; }
 
+        .ajudabtn{
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+        }
+
         /* --- BOTÃO FLUTUANTE DE AJUDA (WhatsApp) --- */
         .btn-ajuda-float {
             position: fixed;
             bottom: 30px;
-            right: 30px;
+            right: 42px;
             background-color: #e65c00;
             width: 60px;
             height: 60px;
@@ -131,6 +137,16 @@
             .linha-item-header { display: none; } /* Oculta cabeçalho em telas pequenas */
             .linha-item { padding: 15px; }
             .linha-item div::before { content: attr(data-label) ": "; font-weight: bold; color: #555; }
+            .ajudabtn{
+                position: fixed;
+                bottom: 57px;
+                right: 12px;
+            }
+            .btn-ajuda-float{
+                position: fixed;
+                bottom: 14px;
+                right: 40px;
+            }
         }
 
         #loading { display: none; margin-top: 15px; color: #e65c00; font-weight: 600; text-align: center; }
@@ -637,6 +653,7 @@
     window.onload = carregarDados;
 </script>
 
+<div class="ajudabtn"><h4>Ajuda e dúvidas</h4></div>
 <a href="https://wa.me/5567996194026" target="_blank" class="btn-ajuda-float" title="Ajuda e Dúvidas">
     <svg viewBox="0 0 24 24">
         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/>
