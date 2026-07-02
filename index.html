@@ -147,6 +147,9 @@
                 bottom: 14px;
                 right: 40px;
             }
+            /* Ajuste para o formulário de uniformes em telas pequenas */
+            #linhaItemUniforme { flex-direction: column; }
+            #qtdItemUniforme { width: 100% !important; }
         }
 
         #loading { display: none; margin-top: 15px; color: #e65c00; font-weight: 600; text-align: center; }
@@ -276,11 +279,72 @@
 
             <div class="form-group items-container">
                 <label>Adicionar itens e quantidade</label>
-                <div class="item-row">
+                <div class="item-row" id="linhaItemPadrao">
                     <input type="text" id="nomeItem" list="historicoItens" placeholder="Nome do item (ex: Mouse)">
                     <datalist id="historicoItens"></datalist>
                     <input type="number" id="qtdItem" placeholder="Qtd" style="width: 80px;">
-                    <button type="button" class="btn" onclick="adicionarItem()">Novo</button>
+                    <button type="button" class="btn" onclick="adicionarItem('padrao')">Novo</button>
+                </div>
+
+                <div class="item-row escondido" id="linhaItemUniforme">
+                    <select id="nomeItemUniforme" style="flex: 2;">
+                        <option value="">Selecione a peça...</option>
+                        <option value="CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA">CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA</option>
+                        <option value="CAMISETA POLO PRETA MASCULINA">CAMISETA POLO PRETA MASCULINA</option>
+                        <option value="CAMISETA POLO LARANJA MASCULINA">CAMISETA POLO LARANJA MASCULINA</option>
+                        <option value="CAMISETA POLO PRETA BABY LOOK FEMININA">CAMISETA POLO PRETA BABY LOOK FEMININA</option>
+                        <option value="CAMISETA POLO LARANJA BABY LOOK FEMININA">CAMISETA POLO LARANJA BABY LOOK FEMININA</option>
+                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA</option>
+                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA</option>
+                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA CURTA">CAMISA SOCIAL ADM MASCULINA MANGA CURTA</option>
+                        <option value="CAMISA SOCIAL ADM FEMININA MANGA LONGA">CAMISA SOCIAL ADM FEMININA MANGA LONGA</option>
+                        <option value="CAMISA SOCIAL ADM FEMININA MANGA CURTA">CAMISA SOCIAL ADM FEMININA MANGA CURTA</option>
+                        <option value="CAMISA PROMOCIONAL">CAMISA PROMOCIONAL</option>
+                        <option value="CALÇA JEANS, LOGO, COM FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS, 4 BOLSOS, LOGO, COM FAIXA REFLETIVA NAS PERNAS</option>
+                        <option value="CALÇA JEANS S/LOGO S/FAIXA">CALÇA JEANS S/LOGO S/FAIXA</option>
+                    </select>
+                    
+                    <select id="tamanhoUniforme" style="flex: 1;">
+                        <option value="">Tamanho...</option>
+                        <optgroup label="Letras">
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                            <option value="EG">EG</option>
+                            <option value="EGG07">EGG07</option>
+                            <option value="EGG08">EGG08</option>
+                            <option value="EGG09">EGG09</option>
+                            <option value="EGG10">EGG10</option>
+                        </optgroup>
+                        <optgroup label="Números">
+                            <option value="30">30</option>
+                            <option value="32">32</option>
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                            <option value="50">50</option>
+                            <option value="52">52</option>
+                            <option value="54">54</option>
+                            <option value="56">56</option>
+                            <option value="58">58</option>
+                            <option value="60">60</option>
+                            <option value="62">62</option>
+                            <option value="64">64</option>
+                            <option value="66">66</option>
+                            <option value="68">68</option>
+                            <option value="70">70</option>
+                        </optgroup>
+                    </select>
+
+                    <input type="number" id="qtdItemUniforme" placeholder="Qtd" style="width: 80px;">
+                    <button type="button" class="btn" onclick="adicionarItem('uniforme')">Novo</button>
                 </div>
                 <ul class="item-list" id="listaItensHTML"></ul>
             </div>
@@ -362,18 +426,72 @@
         }
     }
 
+    // --- ALTERAR INPUTS BASEADO NO GRUPO (Lógica do Uniforme) ---
+    document.getElementById('grupoMaterial').addEventListener('change', function(e) {
+        const linhaPadrao = document.getElementById('linhaItemPadrao');
+        const linhaUniforme = document.getElementById('linhaItemUniforme');
+        
+        if (e.target.value === 'Uniforme') {
+            linhaPadrao.classList.add('escondido');
+            linhaUniforme.classList.remove('escondido');
+        } else {
+            linhaUniforme.classList.add('escondido');
+            linhaPadrao.classList.remove('escondido');
+        }
+    });
+
     // --- GESTÃO DE ITENS ---
-    function adicionarItem() {
-        const nome = document.getElementById('nomeItem').value;
-        const qtd = document.getElementById('qtdItem').value;
-        if(nome && qtd) {
-            itensMapeados.push({nome: nome, qtd: qtd});
-            atualizarListaHTML();
+    function adicionarItem(tipoDaLinha) {
+        let nome = "";
+        let qtd = "";
+
+        if (tipoDaLinha === 'uniforme') {
+            const peca = document.getElementById('nomeItemUniforme').value;
+            const tamanho = document.getElementById('tamanhoUniforme').value;
+            qtd = document.getElementById('qtdItemUniforme').value;
+
+            // Se faltar algum campo do uniforme, avisa o utilizador
+            if (!peca || !tamanho || !qtd) {
+                alert("Por favor, selecione a peça, o tamanho e a quantidade do uniforme.");
+                return;
+            }
+            
+            // Concatena a peça e o tamanho com um traço (Ex: Calça Jeans - EGG)
+            nome = `${peca} (Tam: ${tamanho})`; 
+            
+            // Limpa os campos do uniforme após adicionar
+            document.getElementById('nomeItemUniforme').value = '';
+            document.getElementById('tamanhoUniforme').value = '';
+            document.getElementById('qtdItemUniforme').value = '';
+            document.getElementById('nomeItemUniforme').focus();
+            
+        } else {
+            // Lógica para itens padrão (Material de Escritório, Informática, etc.)
+            nome = document.getElementById('nomeItem').value;
+            qtd = document.getElementById('qtdItem').value;
+            
+            // Se os campos padrão estiverem vazios, não faz nada
+            if (!nome || !qtd) return;
+            
+            // Limpa os campos padrão após adicionar
             document.getElementById('nomeItem').value = '';
             document.getElementById('qtdItem').value = '';
             document.getElementById('nomeItem').focus();
         }
+
+        // Grava na memória e atualiza a lista visual no ecrã
+        itensMapeados.push({nome: nome, qtd: qtd});
+        atualizarListaHTML();
     }
+
+    // --- BLOQUEIO DO ENTER (Atualizado para funcionar nos inputs do Uniforme) ---
+    document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault(); 
+            if (e.target.id === 'nomeItem' || e.target.id === 'qtdItem') adicionarItem('padrao');
+            if (e.target.id === 'qtdItemUniforme' || e.target.id === 'nomeItemUniforme' || e.target.id === 'tamanhoUniforme') adicionarItem('uniforme');
+        }
+    });
 
     function removerItem(index) {
         itensMapeados.splice(index, 1);
@@ -419,14 +537,6 @@
                 </li>`;
         });
     }
-
-    // --- BLOQUEIO DO ENTER ---
-    document.getElementById('requisicaoForm').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
-            e.preventDefault(); 
-            if (e.target.id === 'nomeItem' || e.target.id === 'qtdItem') adicionarItem();
-        }
-    });
 
     // --- ENVIO DO FORMULÁRIO ---
     document.getElementById('requisicaoForm').addEventListener('submit', async (e) => {
@@ -497,7 +607,9 @@
             if(result.status === "success") {
                 alert(`Requisição enviada com sucesso!`);
                 document.getElementById('requisicaoForm').reset();
-                
+                document.getElementById('linhaItemUniforme').classList.add('escondido');
+                document.getElementById('linhaItemPadrao').classList.remove('escondido');
+
                 // Limpa todas as memórias após o sucesso
                 itensMapeados = []; 
                 arquivosSelecionados = []; 
