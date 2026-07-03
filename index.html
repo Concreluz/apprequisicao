@@ -572,7 +572,7 @@
             const codigoExato = obterCodigoUniforme(peca, tamanho);
             
             // 2. Junta tudo (Ex: "[Cód: 2645] CAMISETA POLO PRETA MASCULINA - Tam: P")
-            nome = `|Cód: ${codigoExato}| ${peca} - Tam: ${tamanho}`; 
+            nome = `|${codigoExato}| ${peca} - Tam: ${tamanho}`; 
             
             // 3. Limpa os campos
             document.getElementById('nomeItemUniforme').value = '';
