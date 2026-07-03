@@ -295,13 +295,13 @@
                         <option value="CAMISETA POLO PRETA BABY LOOK FEMININA">CAMISETA POLO PRETA BABY LOOK FEMININA</option>
                         <option value="CAMISETA POLO LARANJA BABY LOOK FEMININA">CAMISETA POLO LARANJA BABY LOOK FEMININA</option>
                         <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA</option>
-                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA</option>
+                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA</option>
                         <option value="CAMISA SOCIAL ADM MASCULINA MANGA CURTA">CAMISA SOCIAL ADM MASCULINA MANGA CURTA</option>
                         <option value="CAMISA SOCIAL ADM FEMININA MANGA LONGA">CAMISA SOCIAL ADM FEMININA MANGA LONGA</option>
                         <option value="CAMISA SOCIAL ADM FEMININA MANGA CURTA">CAMISA SOCIAL ADM FEMININA MANGA CURTA</option>
                         <option value="CAMISA PROMOCIONAL">CAMISA PROMOCIONAL</option>
-                        <option value="CALÇA JEANS, LOGO, COM FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS, 4 BOLSOS, LOGO, COM FAIXA REFLETIVA NAS PERNAS</option>
-                        <option value="CALÇA JEANS, S/LOGO, S/FAIXA">CALÇA JEANS S/LOGO S/FAIXA</option>
+                        <option value="CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS</option>
+                        <option value="CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS</option>
                     </select>
                     
                     <select id="tamanhoUniforme" style="flex: 1;">
@@ -440,6 +440,119 @@
         }
     });
 
+    // --- FUNÇÃO PARA DESCOBRIR O CÓDIGO DO UNIFORME ---
+    function obterCodigoUniforme(peca, tamanho) {
+        
+        if (peca === "CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA") {
+            if (tamanho === "PP") return "9102";
+            if (tamanho === "P") return "9103";
+            if (tamanho === "M") return "9104";
+            if (tamanho === "G") return "9105";
+            if (tamanho === "GG") return "9106";
+            if (tamanho === "EG") return "9107";
+            if (tamanho === "EGG07") return "9108";
+        }
+        else if (peca === "CAMISETA POLO PRETA MASCULINA") {
+            if (tamanho === "P") return "2645";
+            if (tamanho === "M") return "2646";
+            if (tamanho === "G") return "2647";
+            if (tamanho === "GG") return "2648";
+        }
+        else if (peca === "CAMISETA POLO LARANJA MASCULINA") {
+            if (tamanho === "P") return "2638";
+            if (tamanho === "M") return "2639";
+            if (tamanho === "G") return "2640";
+            if (tamanho === "GG") return "2641";
+        }
+        else if (peca === "CAMISETA POLO PRETA BABY LOOK FEMININA") {
+            if (tamanho === "P") return "2630";
+            if (tamanho === "M") return "2631";
+            if (tamanho === "G") return "2632";
+            if (tamanho === "GG") return "2633";
+        }
+        else if (peca === "CAMISETA POLO LARANJA BABY LOOK FEMININA") {
+            if (tamanho === "P") return "7366";
+            if (tamanho === "M") return "2624";
+            if (tamanho === "G") return "2625";
+            if (tamanho === "GG") return "2626";
+        }
+        else if (peca === "CAMISA SOCIAL ADM MASCULINA MANGA LONGA") {
+            if (tamanho === "PP") return "9063";
+            if (tamanho === "P") return "1714";
+            if (tamanho === "M") return "1715";
+            if (tamanho === "G") return "1716";
+            if (tamanho === "GG") return "1717";
+            if (tamanho === "EG") return "1718";
+        }
+        else if (peca === "CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA") {
+            if (tamanho === "PP") return "9101";
+            if (tamanho === "P") return "9095";
+            if (tamanho === "M") return "9096";
+            if (tamanho === "G") return "9097";
+            if (tamanho === "GG") return "9098";
+            if (tamanho === "EG") return "9099";
+            if (tamanho === "EGG07") return "9100";
+        }
+        else if (peca === "CAMISA SOCIAL ADM MASCULINA MANGA CURTA") {
+            if (tamanho === "PP") return "9061";
+            if (tamanho === "P") return "1701";
+            if (tamanho === "M") return "1702";
+            if (tamanho === "G") return "1703";
+            if (tamanho === "GG") return "1704";
+            if (tamanho === "EG") return "1705";
+        }
+        else if (peca === "CAMISA SOCIAL ADM FEMININA MANGA LONGA") {
+            if (tamanho === "PP") return "1707";
+            if (tamanho === "P") return "1708";
+            if (tamanho === "M") return "1709";
+            if (tamanho === "G") return "1710";
+            if (tamanho === "GG") return "1711";
+            if (tamanho === "EG") return "1712";
+        }
+        else if (peca === "CAMISA SOCIAL ADM FEMININA MANGA CURTA") {
+            if (tamanho === "PP") return "1694";
+            if (tamanho === "P") return "1695";
+            if (tamanho === "M") return "1696";
+            if (tamanho === "G") return "1697";
+            if (tamanho === "GG") return "1698";
+            if (tamanho === "EG") return "1699";
+        }
+        else if (peca === "CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS") {
+            if (tamanho === "34") return "4781";
+            if (tamanho === "36") return "1578";
+            if (tamanho === "38") return "1579";
+            if (tamanho === "40") return "1580";
+            if (tamanho === "42") return "1581";
+            if (tamanho === "44") return "1582";
+            if (tamanho === "46") return "1584";
+            if (tamanho === "48") return "1585";
+            if (tamanho === "50") return "1586";
+            if (tamanho === "52") return "1587";
+            if (tamanho === "54") return "1588";
+            if (tamanho === "56") return "1946";
+            if (tamanho === "58") return "6341";
+            if (tamanho === "60") return "4553";
+        }
+        else if (peca === "CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS") {
+            if (tamanho === "34") return "9110";
+            if (tamanho === "36") return "9111";
+            if (tamanho === "38") return "9112";
+            if (tamanho === "40") return "9113";
+            if (tamanho === "42") return "9114";
+            if (tamanho === "44") return "9115";
+            if (tamanho === "46") return "9116";
+            if (tamanho === "48") return "9117";
+            if (tamanho === "50") return "9118";
+            if (tamanho === "52") return "9119";
+            if (tamanho === "54") return "9120";
+            if (tamanho === "56") return "9121";
+            if (tamanho === "58") return "9122";
+        }
+        
+        // Se a peça for "CAMISA PROMOCIONAL" (que não tem na planilha) ou algum tamanho faltante, ele fica sem código.
+        return "S/CÓD"; 
+    }
+
     // --- GESTÃO DE ITENS ---
     function adicionarItem(tipoDaLinha) {
         let nome = "";
@@ -450,36 +563,35 @@
             const tamanho = document.getElementById('tamanhoUniforme').value;
             qtd = document.getElementById('qtdItemUniforme').value;
 
-            // Se faltar algum campo do uniforme, avisa o utilizador
             if (!peca || !tamanho || !qtd) {
                 alert("Por favor, selecione a peça, o tamanho e a quantidade do uniforme.");
                 return;
             }
             
-            // Concatena a peça e o tamanho com um traço (Ex: Calça Jeans - EGG)
-            nome = `${peca} (Tam: ${tamanho})`; 
+            // 1. Vai buscar o código usando a nossa nova função If-Else
+            const codigoExato = obterCodigoUniforme(peca, tamanho);
             
-            // Limpa os campos do uniforme após adicionar
+            // 2. Junta tudo (Ex: "[Cód: 2645] CAMISETA POLO PRETA MASCULINA - Tam: P")
+            nome = `|Cód: ${codigoExato}| ${peca} - Tam: ${tamanho}`; 
+            
+            // 3. Limpa os campos
             document.getElementById('nomeItemUniforme').value = '';
             document.getElementById('tamanhoUniforme').value = '';
             document.getElementById('qtdItemUniforme').value = '';
             document.getElementById('nomeItemUniforme').focus();
             
         } else {
-            // Lógica para itens padrão (Material de Escritório, Informática, etc.)
+            // Lógica Padrão
             nome = document.getElementById('nomeItem').value;
             qtd = document.getElementById('qtdItem').value;
             
-            // Se os campos padrão estiverem vazios, não faz nada
             if (!nome || !qtd) return;
             
-            // Limpa os campos padrão após adicionar
             document.getElementById('nomeItem').value = '';
             document.getElementById('qtdItem').value = '';
             document.getElementById('nomeItem').focus();
         }
 
-        // Grava na memória e atualiza a lista visual no ecrã
         itensMapeados.push({nome: nome, qtd: qtd});
         atualizarListaHTML();
     }
