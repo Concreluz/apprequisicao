@@ -63,6 +63,7 @@
         .btn-remover:hover { background: #dc3545; color: white; }
         .btn-anexo { display: inline-block; background: rgba(0, 89, 179, 0.164); color: #004da0; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.171); padding: 6px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-left: 10px; transition: 0.2s; }
         .btn-anexo:hover { background: #007bff9d; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.61); color: white; }
+        .btn-medidas-modelos{ padding: 14px 20px; background: #3d45b4; color: white; border: none; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(230, 92, 0, 0.25); }
 
         /* Form Itens */
         .items-container { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.6); padding: 18px; border-radius: 16px; }
@@ -240,6 +241,7 @@
                     <option value="Rose Garcia">Rose Garcia</option>
                     <option value="Samuel Gomes Costa">Samuel Gomes Costa</option>
                     <option value="Silvio David Delite Junior">Silvio David Delite Junior</option>
+                    <option value="Suellen Alves Moretti">Suellen Alves Moretti</option>
                     <option value="Tatiane Fernandes Nogueira">Tatiane Fernandes Nogueira</option>
                     <option value="Vinicius Dias Lopes">Vinicius Dias Lopes</option>
                 </select>
@@ -286,65 +288,70 @@
                     <button type="button" class="btn" onclick="adicionarItem('padrao')">Novo</button>
                 </div>
 
-                <div class="item-row escondido" id="linhaItemUniforme">
-                    <select id="nomeItemUniforme" style="flex: 2;">
-                        <option value="">Selecione a peça...</option>
-                        <option value="CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA">CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA</option>
-                        <option value="CAMISETA POLO PRETA MASCULINA">CAMISETA POLO PRETA MASCULINA</option>
-                        <option value="CAMISETA POLO LARANJA MASCULINA">CAMISETA POLO LARANJA MASCULINA</option>
-                        <option value="CAMISETA POLO PRETA BABY LOOK FEMININA">CAMISETA POLO PRETA BABY LOOK FEMININA</option>
-                        <option value="CAMISETA POLO LARANJA BABY LOOK FEMININA">CAMISETA POLO LARANJA BABY LOOK FEMININA</option>
-                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA</option>
-                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA</option>
-                        <option value="CAMISA SOCIAL ADM MASCULINA MANGA CURTA">CAMISA SOCIAL ADM MASCULINA MANGA CURTA</option>
-                        <option value="CAMISA SOCIAL ADM FEMININA MANGA LONGA">CAMISA SOCIAL ADM FEMININA MANGA LONGA</option>
-                        <option value="CAMISA SOCIAL ADM FEMININA MANGA CURTA">CAMISA SOCIAL ADM FEMININA MANGA CURTA</option>
-                        <option value="CAMISA PROMOCIONAL">CAMISA PROMOCIONAL</option>
-                        <option value="CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS</option>
-                        <option value="CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS</option>
-                    </select>
-                    
-                    <select id="tamanhoUniforme" style="flex: 1;">
-                        <option value="">Tamanho...</option>
-                        <optgroup label="Letras(Camisas e Camisetas)">
-                            <option value="PP">PP</option>
-                            <option value="P">P</option>
-                            <option value="M">M</option>
-                            <option value="G">G</option>
-                            <option value="GG">GG</option>
-                            <option value="EG">EG</option>
-                            <option value="EGG07">EGG07</option>
-                            <option value="EGG08">EGG08</option>
-                            <option value="EGG09">EGG09</option>
-                            <option value="EGG10">EGG10</option>
-                        </optgroup>
-                        <optgroup label="Números(Calças)">
-                            <option value="30">30</option>
-                            <option value="32">32</option>
-                            <option value="34">34</option>
-                            <option value="36">36</option>
-                            <option value="38">38</option>
-                            <option value="40">40</option>
-                            <option value="42">42</option>
-                            <option value="44">44</option>
-                            <option value="46">46</option>
-                            <option value="48">48</option>
-                            <option value="50">50</option>
-                            <option value="52">52</option>
-                            <option value="54">54</option>
-                            <option value="56">56</option>
-                            <option value="58">58</option>
-                            <option value="60">60</option>
-                            <option value="62">62</option>
-                            <option value="64">64</option>
-                            <option value="66">66</option>
-                            <option value="68">68</option>
-                            <option value="70">70</option>
-                        </optgroup>
-                    </select>
+                <div id="linhaItemUniforme" class="escondido" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <select id="nomeItemUniforme" style="flex: 2;">
+                            <option value="">Selecione a peça...</option>
+                            <option value="CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA">CAMISETA OPERACIONAL M/L 1B SILK C/FAIXA/CINZA</option>
+                            <option value="CAMISETA POLO PRETA MASCULINA">CAMISETA POLO PRETA MASCULINA</option>
+                            <option value="CAMISETA POLO LARANJA MASCULINA">CAMISETA POLO LARANJA MASCULINA</option>
+                            <option value="CAMISETA POLO PRETA BABY LOOK FEMININA">CAMISETA POLO PRETA BABY LOOK FEMININA</option>
+                            <option value="CAMISETA POLO LARANJA BABY LOOK FEMININA">CAMISETA POLO LARANJA BABY LOOK FEMININA</option>
+                            <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA</option>
+                            <option value="CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA">CAMISA SOCIAL ADM MASCULINA MANGA LONGA C/FAIXA REFLETIVA</option>
+                            <option value="CAMISA SOCIAL ADM MASCULINA MANGA CURTA">CAMISA SOCIAL ADM MASCULINA MANGA CURTA</option>
+                            <option value="CAMISA SOCIAL ADM FEMININA MANGA LONGA">CAMISA SOCIAL ADM FEMININA MANGA LONGA</option>
+                            <option value="CAMISA SOCIAL ADM FEMININA MANGA CURTA">CAMISA SOCIAL ADM FEMININA MANGA CURTA</option>
+                            <option value="CAMISA PROMOCIONAL">CAMISA PROMOCIONAL</option>
+                            <option value="CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS C/LOGO, C/ FAIXA REFLETIVA NAS PERNAS</option>
+                            <option value="CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS">CALÇA JEANS S/LOGO, S/ FAIXA REFLETIVA NAS PERNAS</option>
+                        </select>
+                        
+                        <select id="tamanhoUniforme" style="flex: 1;">
+                            <option value="">Tamanho...</option>
+                            <optgroup label="Letras(Camisas e Camisetas)">
+                                <option value="PP">PP</option>
+                                <option value="P">P</option>
+                                <option value="M">M</option>
+                                <option value="G">G</option>
+                                <option value="GG">GG</option>
+                                <option value="EG">EG</option>
+                                <option value="EGG07">EGG07</option>
+                                <option value="EGG08">EGG08</option>
+                                <option value="EGG09">EGG09</option>
+                                <option value="EGG10">EGG10</option>
+                            </optgroup>
+                            <optgroup label="Números(Calças)">
+                                <option value="30">30</option>
+                                <option value="32">32</option>
+                                <option value="34">34</option>
+                                <option value="36">36</option>
+                                <option value="38">38</option>
+                                <option value="40">40</option>
+                                <option value="42">42</option>
+                                <option value="44">44</option>
+                                <option value="46">46</option>
+                                <option value="48">48</option>
+                                <option value="50">50</option>
+                                <option value="52">52</option>
+                                <option value="54">54</option>
+                                <option value="56">56</option>
+                                <option value="58">58</option>
+                                <option value="60">60</option>
+                                <option value="62">62</option>
+                                <option value="64">64</option>
+                                <option value="66">66</option>
+                                <option value="68">68</option>
+                                <option value="70">70</option>
+                            </optgroup>
+                        </select>
 
-                    <input type="number" id="qtdItemUniforme" placeholder="Qtd" style="width: 80px;">
-                    <button type="button" class="btn" onclick="adicionarItem('uniforme')">Novo</button>
+                        <input type="number" id="qtdItemUniforme" placeholder="Qtd" style="width: 80px;">
+                        <button type="button" class="btn" onclick="adicionarItem('uniforme')">Novo</button>
+                    </div>
+                    <button type="button" class="btn" style="background-color: #3729b8; color: white; width: 100%; box-shadow: 0 4px 15px rgba(49, 181, 237, 0.25);">
+                        Ver Medidas
+                    </button>
                 </div>
                 <ul class="item-list" id="listaItensHTML"></ul>
             </div>
@@ -568,10 +575,9 @@
                 return;
             }
             
-            // 1. Vai buscar o código usando a nossa nova função If-Else
+            // 1. Vai buscar o código usando a função If-Else
             const codigoExato = obterCodigoUniforme(peca, tamanho);
             
-            // 2. Junta tudo (Ex: "[Cód: 2645] CAMISETA POLO PRETA MASCULINA - Tam: P")
             nome = `|${codigoExato}| ${peca} - Tam: ${tamanho}`; 
             
             // 3. Limpa os campos
