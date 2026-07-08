@@ -458,6 +458,7 @@
             if (tamanho === "GG") return "9106";
             if (tamanho === "EG") return "9107";
             if (tamanho === "EGG07") return "9108";
+            if (tamanho === "EGG08") return "9128";
         }
         else if (peca === "CAMISETA POLO PRETA MASCULINA") {
             if (tamanho === "P") return "2645";
@@ -650,7 +651,7 @@
             const tamanhoMB = (file.size / (1024 * 1024)).toFixed(2);
             ul.innerHTML += `
                 <li>
-                    <span>📄 ${file.name} <b>(${tamanhoMB} MB)</b></span>
+                    <span> ${file.name} <b>(${tamanhoMB} MB)</b></span>
                     <button type="button" class="btn-remover" onclick="removerAnexo(${index})" title="Remover anexo">X</button>
                 </li>`;
         });
@@ -840,7 +841,7 @@
                     <div class="card-header" onclick="toggleCard('${id}')">
                         <h4>Requisição #${id} - Urgente: ${urgente} <span id="chev-${id}" class="chevron">▼</span></h4>
                         <div class="status-line">
-                            📋 Contém ${req.itens ? req.itens.length : 0} item(ns) (Clique para expandir detalhes)
+                            Contém ${req.itens ? req.itens.length : 0} item(ns) (Clique para expandir detalhes)
                         </div>
                         <div class="footer-line">
                             <span>${unidade} | ${solicitante} | Prazo Geral: ${prazoFormatado}</span>
