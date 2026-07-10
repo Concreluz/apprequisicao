@@ -64,6 +64,7 @@
         .btn-anexo { display: inline-block; background: rgba(0, 89, 179, 0.164); color: #004da0; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.171); padding: 6px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-left: 10px; margin-top: 10px ;transition: 0.2s; }
         .btn-anexo:hover { background: #007bff9d; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.61); color: white; }
         .btn-medidas-modelos{ padding: 14px 20px; background: #3d45b4; color: white; border: none; border-radius: 14px; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(230, 92, 0, 0.25); }
+        .btn-pr { background-color: #be1d00; }
 
         /* Form Itens */
         .items-container { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.6); padding: 18px; border-radius: 16px; }
@@ -352,8 +353,8 @@
                         <input type="number" id="qtdItemUniforme" placeholder="Qtd" style="width: 80px;">
                         <button type="button" class="btn" onclick="adicionarItem('uniforme')">Adicionar</button>
                     </div>
-                    <a href="etc\Medidas e modelos camiseta.pdf" target="_blank" class="btn" style="background-color: #3729b8; color: white; width: 100%; box-shadow: 0 4px 15px rgba(49, 181, 237, 0.25); text-align: center; text-decoration: none; display: inline-block; box-sizing: border-box;">
-                        Ver medidas e modelos
+                    <a href="regras e politicas/Medidas e modelos camiseta.pdf" target="_blank" class="btn" style="background-color: #3729b8; color: white; width: 100%; box-shadow: 0 4px 15px rgba(49, 181, 237, 0.25); text-align: center; text-decoration: none; display: inline-block; box-sizing: border-box;">
+                        Ver regras, medidas e modelos
                     </a>
                 </div>
                 <ul class="item-list" id="listaItensHTML"></ul>
@@ -401,15 +402,18 @@
         <div class="cards-grid">
             <div class="card c-outros">
                 <h4>Ficha cadastral de fornecedor</h4>
-                <a class="btn" href="https://forms.gle/DWdT1KvbHwrTiSxg9" target="_blank" style="text-decoration: none;">Clique aqui</a>
+                <a class="btn" href="https://forms.gle/DWdT1KvbHwrTiSxg9" target="_blank" style="text-decoration: none;">Formulário</a>
+                <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO E AVALIAÇÃO DE FORNECEDORES.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
             </div>
             <div class="card c-outros">
                 <h4>Solicitação de cadastro de material</h4>
-                <a class="btn" href="https://forms.gle/TtqcDXm4T91WrXC87" target="_blank" style="text-decoration: none;">Clique aqui</a>
+                <a class="btn" href="https://forms.gle/TtqcDXm4T91WrXC87" target="_blank" style="text-decoration: none;">Formulário</a>
+                <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO DE MATERIAIS.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
             </div>
             <div class="card c-outros">
                 <h4>Solicitação de passagens, hotéis e locação de veículos</h4>
-                <a class="btn" href="https://forms.gle/sV3zfyZ6ZV1yMHDfA" target="_blank" style="text-decoration: none;">Clique aqui</a>
+                <a class="btn" href="https://forms.gle/sV3zfyZ6ZV1yMHDfA" target="_blank" style="text-decoration: none;">Formulário</a>
+                <a class="btn btn-pr" href="regras e politicas/POLITICA DE VIAGENS CONCRELUZ.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
             </div>
         </div>
     </div>
@@ -462,24 +466,12 @@
         }
     }
 
-    // --- ALTERAR INPUTS BASEADO NO GRUPO (Lógica do Uniforme e Trava do Dia 10) ---
+    // --- ALTERAR INPUTS BASEADO NO GRUPO (Lógica do Uniforme) ---
     document.getElementById('grupoMaterial').addEventListener('change', function(e) {
         const linhaPadrao = document.getElementById('linhaItemPadrao');
         const linhaUniforme = document.getElementById('linhaItemUniforme');
         
         if (e.target.value === 'Uniforme') {
-            const diaAtual = new Date().getDate(); // Descobre que dia do mês é hoje (1 a 31)
-            
-            // Se já tiver passado do dia 10, bloqueia
-            if (diaAtual > 10) {
-                alert("A solicitação de uniformes só é permitida até ao dia 10 de cada mês.");
-                this.value = ""; // Devolve a caixa de seleção para "Selecione..."
-                linhaUniforme.classList.add('escondido');
-                linhaPadrao.classList.remove('escondido');
-                return; // Pára tudo aqui
-            }
-            
-            // Se estiver no prazo (dia 10 ou antes), mostra a linha de uniformes
             linhaPadrao.classList.add('escondido');
             linhaUniforme.classList.remove('escondido');
         } else {
