@@ -75,6 +75,8 @@
         .cards-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 15px; }
         .card { background: rgba(255, 255, 255, 0.103); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.5); }
+
+        .c-outros {padding-left: 25px; height: 120px;}
         
         /* Área Clicável do Card */
         .card-header { padding: 22px; cursor: pointer; }
@@ -164,6 +166,7 @@
     <div class="navbar">
         <button class="nav-btn active" id="btnAbaLista" onclick="mostrarTela('lista')">Requisições</button>
         <button class="nav-btn" id="btnAbaNova" onclick="mostrarTela('nova')">Criar Nova Requisição</button>
+        <button class="nav-btn" id="btnAbaOutros" onclick="mostrarTela('outros')">Outros</button>
     </div>
 
     <div id="telaLista">
@@ -393,6 +396,23 @@
             <div id="loading">Enviando dados e arquivo... NÃO SAIA ATÉ APARECER A CONFIRMAÇÃO DA CRIAÇÃO.</div>
         </form>
     </div>
+    <div id="telaOutros" class="escondido">
+        <h2>Procurando outro formulário?</h2>
+        <div class="cards-grid">
+            <div class="card c-outros">
+                <h4>Ficha cadastral de fornecedor</h4>
+                <a class="btn" href="https://forms.gle/DWdT1KvbHwrTiSxg9" target="_blank" style="text-decoration: none;">Clique aqui</a>
+            </div>
+            <div class="card c-outros">
+                <h4>Solicitação de cadastro de material</h4>
+                <a class="btn" href="https://forms.gle/TtqcDXm4T91WrXC87" target="_blank" style="text-decoration: none;">Clique aqui</a>
+            </div>
+            <div class="card c-outros">
+                <h4>Solicitação de passagens, hotéis e locação de veículos</h4>
+                <a class="btn" href="https://forms.gle/sV3zfyZ6ZV1yMHDfA" target="_blank" style="text-decoration: none;">Clique aqui</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -405,11 +425,17 @@
 
     // --- NAVEGAÇÃO ---
     function mostrarTela(telaAlvo) {
+        // 1. Esconde todas as telas
         document.getElementById('telaNova').classList.add('escondido');
         document.getElementById('telaLista').classList.add('escondido');
+        document.getElementById('telaOutros').classList.add('escondido');
+        
+        // 2. Remove a cor laranja de todos os botões
         document.getElementById('btnAbaNova').classList.remove('active');
         document.getElementById('btnAbaLista').classList.remove('active');
+        document.getElementById('btnAbaOutros').classList.remove('active');
 
+        // 3. Mostra apenas a tela e o botão clicados
         if(telaAlvo === 'nova') {
             document.getElementById('telaNova').classList.remove('escondido');
             document.getElementById('btnAbaNova').classList.add('active');
@@ -417,6 +443,9 @@
             document.getElementById('telaLista').classList.remove('escondido');
             document.getElementById('btnAbaLista').classList.add('active');
             carregarDados(); 
+        } else if (telaAlvo === 'outros') {
+            document.getElementById('telaOutros').classList.remove('escondido');
+            document.getElementById('btnAbaOutros').classList.add('active');
         }
     }
 
@@ -433,15 +462,28 @@
         }
     }
 
-    // --- ALTERAR INPUTS BASEADO NO GRUPO (Lógica do Uniforme) ---
+    // --- ALTERAR INPUTS BASEADO NO GRUPO (Lógica do Uniforme e Trava do Dia 10) ---
     document.getElementById('grupoMaterial').addEventListener('change', function(e) {
         const linhaPadrao = document.getElementById('linhaItemPadrao');
         const linhaUniforme = document.getElementById('linhaItemUniforme');
         
         if (e.target.value === 'Uniforme') {
+            const diaAtual = new Date().getDate(); // Descobre que dia do mês é hoje (1 a 31)
+            
+            // Se já tiver passado do dia 10, bloqueia
+            if (diaAtual > 10) {
+                alert("A solicitação de uniformes só é permitida até ao dia 10 de cada mês.");
+                this.value = ""; // Devolve a caixa de seleção para "Selecione..."
+                linhaUniforme.classList.add('escondido');
+                linhaPadrao.classList.remove('escondido');
+                return; // Pára tudo aqui
+            }
+            
+            // Se estiver no prazo (dia 10 ou antes), mostra a linha de uniformes
             linhaPadrao.classList.add('escondido');
             linhaUniforme.classList.remove('escondido');
         } else {
+            // Se escolher qualquer outra coisa (EPI, Informática, etc.)
             linhaUniforme.classList.add('escondido');
             linhaPadrao.classList.remove('escondido');
         }
