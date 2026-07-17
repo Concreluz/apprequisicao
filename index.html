@@ -78,7 +78,7 @@
         .card { background: rgba(255, 255, 255, 0.103); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 255, 255, 0.5); }
 
-        .c-outros {padding-left: 25px; height: 120px;}
+        .c-outros {padding-left: 20px; padding-right: 20px;}
         
         /* Área Clicável do Card */
         .card-header { padding: 22px; cursor: pointer; }
@@ -137,6 +137,14 @@
             fill: white;
         }
 
+        .btn-block {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            padding-bottom: 20px;
+            gap: 10px;
+        }
+
         @media (max-width: 768px) {
             .linha-item, .linha-item-header { grid-template-columns: 1fr; gap: 5px; }
             .linha-item-header { display: none; } /* Oculta cabeçalho em telas pequenas */
@@ -159,7 +167,9 @@
 
         #loading { display: none; margin-top: 15px; color: #e65c00; font-weight: 600; text-align: center; }
         .search-bar { display: flex; gap: 12px; margin-bottom: 25px; }
-        @media (max-width: 600px) { .search-bar { flex-direction: column; } }
+        @media (max-width: 600px) {
+            .search-bar { flex-direction: column; } 
+        }
     </style>
 </head>
 <body>
@@ -404,18 +414,24 @@
         <div class="cards-grid">
             <div class="card c-outros">
                 <h4>Ficha cadastral de fornecedor</h4>
-                <a class="btn" href="https://forms.gle/DWdT1KvbHwrTiSxg9" target="_blank" style="text-decoration: none;">Ir para formulário</a>
-                <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO E AVALIAÇÃO DE FORNECEDORES.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                <div class="btn-block">
+                    <a class="btn" href="https://forms.gle/DWdT1KvbHwrTiSxg9" target="_blank" style="text-decoration: none;">Ir para formulário</a>
+                    <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO E AVALIAÇÃO DE FORNECEDORES.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                </div>
             </div>
             <div class="card c-outros">
                 <h4>Solicitação de cadastro de material</h4>
-                <a class="btn" href="https://forms.gle/TtqcDXm4T91WrXC87" target="_blank" style="text-decoration: none;">Ir para formulário</a>
-                <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO DE MATERIAIS.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                <div class="btn-block">
+                    <a class="btn" href="https://forms.gle/TtqcDXm4T91WrXC87" target="_blank" style="text-decoration: none;">Ir para formulário</a>
+                    <a class="btn btn-pr" href="regras e politicas/POLÍTICA DE CADASTRO DE MATERIAIS.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                </div>
             </div>
             <div class="card c-outros">
                 <h4>Solicitação de passagens, hotéis e locação de veículos</h4>
-                <a class="btn" href="https://forms.gle/sV3zfyZ6ZV1yMHDfA" target="_blank" style="text-decoration: none;">Ir para formulário</a>
-                <a class="btn btn-pr" href="regras e politicas/POLITICA DE VIAGENS CONCRELUZ.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                <div class="btn-block">
+                    <a class="btn btn" href="https://forms.gle/sV3zfyZ6ZV1yMHDfA" target="_blank" style="text-decoration: none;">Ir para formulário</a>
+                    <a class="btn btn-pr" href="regras e politicas/POLITICA DE VIAGENS CONCRELUZ.pdf" target="_blank" style="text-decoration: none;">Políticas e regras</a>
+                </div>
             </div>
         </div>
     </div>
