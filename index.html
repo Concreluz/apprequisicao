@@ -93,8 +93,8 @@
         /* Área Oculta dos Itens (Expansão) */
         .card-body { display: none; padding: 0 22px 22px 22px; background: rgba(255, 255, 255, 0.164); border-top: 1px solid rgba(255, 255, 255, 0.6); }
         .tabela-itens { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
-        .linha-item { background: rgba(255, 255, 255, 0.281); padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr 1fr; gap: 10px; align-items: center; font-size: 14px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
-        .linha-item-header { background: transparent; padding: 0 12px; display: grid; grid-template-columns: 2fr 1fr 2fr 1.5fr 1fr; gap: 10px; font-size: 12px; font-weight: bold; color: #555; text-transform: uppercase; margin-bottom: 4px; }
+        .linha-item { background: rgba(255, 255, 255, 0.281); padding: 12px; border-radius: 12px; display: grid; grid-template-columns: 2fr 0.8fr 1.5fr 1.5fr 1fr 1fr; gap: 10px; align-items: center; font-size: 14px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .linha-item-header { background: transparent; padding: 0 12px; display: grid; grid-template-columns: 2fr 0.8fr 1.5fr 1.5fr 1fr 1fr; gap: 10px; font-size: 12px; font-weight: bold; color: #555; text-transform: uppercase; margin-bottom: 4px; }
         
         .badge-status { background: rgba(230, 92, 0, 0.15); color: #cc5200; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; text-align: center; }
 
@@ -461,7 +461,7 @@
 </div>
 
 <script>
-    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbxmWpN2H-AqTxvMVoHiRoaceScMdDqg7KgSvcrS4vjhnZOp2owwU09MC0Om8dSCTKsx/exec"; 
+    const URL_DO_GAS = "https://script.google.com/macros/s/AKfycbzdxtmEazFsE9TIQPKGhnyhrct9noSGgl_2tCebCjPQ_T6QTSjwjDCVqAxTIfAhE5hq/exec"; 
 
     let todasRequisicoes = []; 
     let tempoUltimaBusca = 0; 
@@ -899,7 +899,7 @@
             let linhasItensHTML = '';
             if (req.itens && req.itens.length > 0) {
                 linhasItensHTML = `<div class="linha-item-header">
-                                     <div>Nome do Item</div><div>Qtd</div><div>Comprador</div><div>Status</div><div>Previsão</div>
+                                     <div>Nome do Item</div><div>Qtd</div><div>Comprador</div><div>Status</div><div>Nº Pedido</div><div>Previsão</div>
                                    </div>`;
                 req.itens.forEach(item => {
                     linhasItensHTML += `
@@ -908,6 +908,7 @@
                             <div data-label="Qtd">${item.qtd}</div>
                             <div data-label="Comprador">${item.comprador}</div>
                             <div data-label="Status"><span class="badge-status ${obterClasseCorStatus(item.status)}">${item.status}</span></div>
+                            <div data-label="Nº Pedido">${item.numeroPedido}</div>
                             <div data-label="Previsão">${formatarDataBR(item.previsao)}</div>
                         </div>`;
                 });
